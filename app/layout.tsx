@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   // 部署到 Vercel 后，请将此 URL 替换为你的实际域名
-  metadataBase: new URL("https://ai-recipe-shop.vercel.app"),
+  metadataBase: new URL("https://ai-workflow-tools.vercel.app"),
   title: "AI Recipe Shop - 拒绝理论，直接拿走搞钱工作流",
   description:
     "专为自媒体、电商、独立开发定制的 AI 组合拳配方。小红书爆款配图、AI 视频一键生成、跨境电商主图量产，3 套落地工作流，1.9 元解锁核心 Prompt。",
