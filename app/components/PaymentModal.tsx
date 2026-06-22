@@ -30,9 +30,6 @@ export default function PaymentModal({
   const [code, setCode] = useState("");
   const [error, setError] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [activeTab, setActiveTab] = useState<"mianbaoduo" | "afdian">(
-    "mianbaoduo"
-  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   // ESC 键关闭 + 防止背景滚动
@@ -128,77 +125,33 @@ export default function PaymentModal({
         {/* 说明文字 */}
         <div className="mx-6 mb-4 rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3">
           <p className="text-xs leading-relaxed text-slate-400">
-            👉 扫描下方二维码付款 1.9 元，付款成功后系统会自动为您发放激活码。输入激活码即可永久解锁此搞钱工作流！
+            👉 扫描下方二维码付款，付款后截图发给客服微信，立即获取激活码。输入激活码即可永久解锁此搞钱工作流！
           </p>
-        </div>
-
-        {/* 平台切换 Tab */}
-        <div className="mx-6 mb-3 flex gap-2">
-          <button
-            onClick={() => setActiveTab("mianbaoduo")}
-            className={`flex-1 rounded-lg py-2 text-xs font-medium transition-all duration-200 ${
-              activeTab === "mianbaoduo"
-                ? "bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/40"
-                : "bg-slate-800/50 text-slate-500 hover:text-slate-300"
-            }`}
-          >
-            面包多
-          </button>
-          <button
-            onClick={() => setActiveTab("afdian")}
-            className={`flex-1 rounded-lg py-2 text-xs font-medium transition-all duration-200 ${
-              activeTab === "afdian"
-                ? "bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/40"
-                : "bg-slate-800/50 text-slate-500 hover:text-slate-300"
-            }`}
-          >
-            爱发电
-          </button>
         </div>
 
         {/* 二维码区域 */}
         <div className="px-6 pb-4">
           <div className="relative mx-auto flex aspect-square w-44 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
-            {activeTab === "mianbaoduo" ? (
-              // 面包多二维码：将图片放入 public/qrcode-mianbaoduo.png 后自动显示
-              <img
-                src="/qrcode-mianbaoduo.png"
-                alt="面包多付款二维码"
-                className="h-full w-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling?.classList.remove(
-                    "hidden"
-                  );
-                }}
-              />
-            ) : (
-              // 爱发电二维码：将图片放入 public/qrcode-afdian.png 后自动显示
-              <img
-                src="/qrcode-afdian.png"
-                alt="爱发电付款二维码"
-                className="h-full w-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling?.classList.remove(
-                    "hidden"
-                  );
-                }}
-              />
-            )}
+            <img
+              src="/qrcode-personal.png"
+              alt="微信/支付宝收款码"
+              className="h-full w-full object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                e.currentTarget.nextElementSibling?.classList.remove(
+                  "hidden"
+                );
+              }}
+            />
             {/* 占位提示（图片加载失败时显示） */}
             <div className="hidden flex-col items-center gap-2 text-slate-600">
               <QrCode className="h-14 w-14" strokeWidth={1} />
-              <p className="text-[10px]">
-                {activeTab === "mianbaoduo" ? "面包多" : "爱发电"}二维码
-              </p>
+              <p className="text-[10px]">收款二维码</p>
               <p className="text-[9px] text-slate-700">待替换</p>
             </div>
           </div>
           <p className="mt-2 text-center text-[11px] text-slate-500">
-            {activeTab === "mianbaoduo"
-              ? "面包多 · 支持微信/支付宝 · 自动发货"
-              : "爱发电 · 支持微信/支付宝 · 自动发货"}
+            微信/支付宝扫码 · 付款后截图发客服秒发激活码
           </p>
         </div>
 
