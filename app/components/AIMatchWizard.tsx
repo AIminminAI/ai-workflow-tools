@@ -14,6 +14,8 @@ import {
   Workflow,
   Zap,
   CheckCircle2,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import {
   INDUSTRIES,
@@ -22,7 +24,7 @@ import {
   type MatchResult,
 } from "../data/aiTools";
 
-type Step = "industry" | "task" | "budget" | "result";
+type Step = "industry" | "task" | "budget" | "loading" | "result";
 
 const BUDGETS = [
   { id: "free", name: "免费优先", emoji: "🆓", desc: "只用免费工具" },
@@ -30,13 +32,29 @@ const BUDGETS = [
   { id: "pro", name: "专业级", emoji: "💎", desc: "不限预算要最好" },
 ];
 
+// AI 返回的结果类型
+interface AIResult {
+  primary: { name: string; reason: string; url: string };
+  secondary: { name: string; reason: string; url: string }[];
+  workflow: string[];
+  tips: string[];
+  comparison: string;
+}
+
 export default function AIMatchWizard() {
   const [step, setStep] = useState<Step>("industry");
   const [industry, setIndustry] = useState("");
   const [task, setTask] = useState("");
   const [budget, setBudget] = useState("");
-  const [result, setResult] = useState<MatchResult | null>(null);
+  const [description, setDescription] = useState("");
+  const [aiResult, setAiResult] = useState<AIResult | null>(null);
+  const [fallbackResult, setFallbackResult] = useState<MatchResult | null>(null);
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  const industryName =
+    INDUSTRIES.find((i) => i.id === industry)?.name || "";
+  const taskName = TASKS.find((t) => t.id === task)?.name || "";
 
   const handleIndustrySelect = (id: string) => {
     setIndustry(id);
@@ -48,35 +66,82 @@ export default function AIMatchWizard() {
     setStep("budget");
   };
 
-  const handleBudgetSelect = (id: string) => {
-    setBudget(id);
-    const r = matchTools(industry, task, id);
-    setResult(r);
-    setStep("result");
+  const handleMatch = async () => {
+    setStep("loading");
+    setError("");
+
+    try {
+      const res = await fetch("/api/match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          industry: industryName,
+          task: taskName,
+          budget: BUDGETS.find((b) => b.id === budget)?.name || budget,
+          description: description.trim(),
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("API 请求失败");
+      }
+
+      const data = await res.json();
+
+      if (data.error && data.fallback) {
+        // API Key 未配置，降级到静态匹配
+        const fallback = matchTools(industry, task, budget);
+        setFallbackResult(fallback);
+        setAiResult(null);
+        setStep("result");
+        return;
+      }
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      setAiResult(data);
+      setFallbackResult(null);
+      setStep("result");
+    } catch (err) {
+      // 出错时降级到静态匹配
+      const fallback = matchTools(industry, task, budget);
+      setFallbackResult(fallback);
+      setAiResult(null);
+      setStep("result");
+    }
   };
 
   const handleReset = () => {
     setIndustry("");
     setTask("");
     setBudget("");
-    setResult(null);
+    setDescription("");
+    setAiResult(null);
+    setFallbackResult(null);
+    setError("");
     setStep("industry");
   };
 
-  const handleCopyPrompt = () => {
-    if (!result) return;
-    navigator.clipboard.writeText(result.searchPrompt);
+  const handleCopyTips = () => {
+    if (!aiResult && !fallbackResult) return;
+    const text = aiResult
+      ? aiResult.tips.join("\n")
+      : fallbackResult!.tips.join("\n");
+    navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const stepOrder: Step[] = ["industry", "task", "budget", "result"];
+  const stepOrder: Step[] = ["industry", "task", "budget", "loading", "result"];
   const currentStepIndex = stepOrder.indexOf(step);
+  const isFallback = !!fallbackResult && !aiResult;
 
   return (
     <div className="mx-auto w-full max-w-3xl">
       {/* 进度指示器 */}
-      {step !== "result" && (
+      {step !== "result" && step !== "loading" && (
         <div className="mb-6 flex items-center justify-center gap-2">
           {["行业", "需求", "预算"].map((label, i) => (
             <div key={label} className="flex items-center gap-2">
@@ -111,7 +176,7 @@ export default function AIMatchWizard() {
               你在哪个行业？
             </h3>
             <p className="mt-1 text-xs text-slate-500">
-              选择你的行业，AI 匹配器会给出针对性建议
+              选择你的行业，AI 会给出针对性建议
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
@@ -174,24 +239,28 @@ export default function AIMatchWizard() {
         </div>
       )}
 
-      {/* 第 3 步：选预算 */}
+      {/* 第 3 步：选预算 + 描述问题 */}
       {step === "budget" && (
         <div className="animate-card-in">
           <div className="mb-5 text-center">
             <h3 className="flex items-center justify-center gap-2 text-lg font-bold text-slate-100">
               <Zap className="h-5 w-5 text-blue-400" />
-              你的预算偏好？
+              预算偏好 + 具体问题
             </h3>
             <p className="mt-1 text-xs text-slate-500">
-              会根据预算过滤推荐工具
+              描述越详细，AI 推荐越精准
             </p>
           </div>
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
             {BUDGETS.map((b) => (
               <button
                 key={b.id}
-                onClick={() => handleBudgetSelect(b.id)}
-                className="group flex flex-col items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/60 px-4 py-5 transition-all duration-200 hover:border-blue-500/50 hover:bg-blue-500/10 hover:scale-[1.03]"
+                onClick={() => setBudget(b.id)}
+                className={`group flex flex-col items-center gap-1.5 rounded-xl border px-4 py-5 transition-all duration-200 hover:scale-[1.03] ${
+                  budget === b.id
+                    ? "border-blue-500 bg-blue-500/10"
+                    : "border-slate-700 bg-slate-900/60 hover:border-blue-500/50 hover:bg-blue-500/10"
+                }`}
               >
                 <span className="text-2xl transition-transform duration-200 group-hover:scale-110">
                   {b.emoji}
@@ -203,6 +272,34 @@ export default function AIMatchWizard() {
               </button>
             ))}
           </div>
+
+          {/* 自由描述输入框 */}
+          <div className="mt-4">
+            <label className="mb-1.5 block text-xs font-medium text-slate-400">
+              具体描述你的问题（选填，但强烈建议填写）
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="例如：我是做火车门的，想了解最新的车门密封技术标准，以及如何用 AI 辅助分析图纸中的结构问题"
+              rows={3}
+              className="w-full resize-none rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+            />
+            <p className="mt-1 text-[10px] text-slate-600">
+              💡 填了具体问题，AI 会针对你的问题给出个性化推荐，而不是泛泛而谈
+            </p>
+          </div>
+
+          {/* 匹配按钮 */}
+          <button
+            onClick={handleMatch}
+            disabled={!budget}
+            className="mx-auto mt-5 flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:from-blue-400 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Sparkles className="h-4 w-4" />
+            让 AI 帮我匹配
+          </button>
+
           <button
             onClick={() => setStep("task")}
             className="mx-auto mt-4 flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-300"
@@ -213,13 +310,31 @@ export default function AIMatchWizard() {
         </div>
       )}
 
+      {/* 加载中 */}
+      {step === "loading" && (
+        <div className="animate-card-in flex flex-col items-center justify-center py-16">
+          <Loader2 className="h-10 w-10 animate-spin text-blue-400" />
+          <p className="mt-4 text-sm text-slate-400">
+            AI 正在分析你的需求，生成个性化推荐...
+          </p>
+          <p className="mt-1 text-[10px] text-slate-600">
+            {industryName} · {taskName} · 通常需要 3-8 秒
+          </p>
+        </div>
+      )}
+
       {/* 结果页 */}
-      {step === "result" && result && (
+      {step === "result" && (aiResult || fallbackResult) && (
         <div className="animate-card-in space-y-4">
           {/* 成功提示 */}
           <div className="flex items-center justify-center gap-2 text-emerald-400">
             <CheckCircle2 className="h-5 w-5" />
             <span className="text-sm font-semibold">匹配完成</span>
+            {isFallback && (
+              <span className="ml-2 rounded bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-400">
+                基础推荐（AI 增强未启用）
+              </span>
+            )}
           </div>
 
           {/* 主力推荐 */}
@@ -230,27 +345,42 @@ export default function AIMatchWizard() {
               </span>
             </div>
             <div className="flex items-start gap-4">
-              <span className="text-4xl">{result.primary.emoji}</span>
+              <span className="text-4xl">
+                {aiResult
+                  ? "🤖"
+                  : fallbackResult!.primary.emoji}
+              </span>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <h4 className="text-lg font-bold text-slate-100">
-                    {result.primary.name}
+                    {aiResult
+                      ? aiResult.primary.name
+                      : fallbackResult!.primary.name}
                   </h4>
-                  <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
-                    {result.primary.pricing}
-                  </span>
-                  <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
-                    {result.primary.region}
-                  </span>
+                  {!isFallback && (
+                    <>
+                      <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
+                        {fallbackResult?.primary.pricing || ""}
+                      </span>
+                    </>
+                  )}
                 </div>
                 <p className="mt-1 text-xs text-slate-400">
-                  {result.primary.desc}
+                  {aiResult
+                    ? aiResult.primary.reason
+                    : fallbackResult!.primary.desc}
                 </p>
-                <p className="mt-2 text-xs text-blue-300/80">
-                  💡 {result.primaryReason}
-                </p>
+                {!aiResult && (
+                  <p className="mt-2 text-xs text-blue-300/80">
+                    💡 {fallbackResult!.primaryReason}
+                  </p>
+                )}
                 <a
-                  href={result.primary.url}
+                  href={
+                    aiResult
+                      ? aiResult.primary.url
+                      : fallbackResult!.primary.url
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-blue-500/20 px-3 py-1.5 text-xs font-medium text-blue-300 transition-all hover:bg-blue-500/30"
@@ -263,38 +393,38 @@ export default function AIMatchWizard() {
           </div>
 
           {/* 辅助工具 */}
-          {result.secondary.length > 0 && (
-            <div className="rounded-2xl border border-slate-700 bg-slate-900/60 p-5">
-              <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-200">
-                <Sparkles className="h-4 w-4 text-amber-400" />
-                搭配使用效果更好
-              </h4>
-              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                {result.secondary.map((tool) => (
-                  <a
-                    key={tool.id}
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-3 rounded-xl border border-slate-700 bg-slate-950/40 px-3 py-2.5 transition-all hover:border-slate-600 hover:bg-slate-800/40"
-                  >
-                    <span className="text-xl">{tool.emoji}</span>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-semibold text-slate-200 group-hover:text-blue-300">
-                          {tool.name}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-slate-500">{tool.desc}</p>
-                    </div>
-                    <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[9px] text-slate-400">
-                      {tool.pricing}
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/60 p-5">
+            <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-200">
+              <Sparkles className="h-4 w-4 text-amber-400" />
+              搭配使用效果更好
+            </h4>
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {(aiResult
+                ? aiResult.secondary
+                : fallbackResult!.secondary.map((t) => ({
+                    name: t.name,
+                    reason: t.desc,
+                    url: t.url,
+                  }))
+              ).map((tool, i) => (
+                <a
+                  key={i}
+                  href={tool.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 rounded-xl border border-slate-700 bg-slate-950/40 px-3 py-2.5 transition-all hover:border-slate-600 hover:bg-slate-800/40"
+                >
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-slate-200 group-hover:text-blue-300">
+                      {tool.name}
                     </span>
-                  </a>
-                ))}
-              </div>
+                    <p className="text-[10px] text-slate-500">{tool.reason}</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-slate-600 group-hover:text-blue-400" />
+                </a>
+              ))}
             </div>
-          )}
+          </div>
 
           {/* 工作流 */}
           <div className="rounded-2xl border border-slate-700 bg-slate-900/60 p-5">
@@ -303,47 +433,43 @@ export default function AIMatchWizard() {
               推荐工作流
             </h4>
             <div className="space-y-2.5">
-              {result.workflow.map((step, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-[10px] font-bold text-emerald-400">
-                    {i + 1}
-                  </span>
-                  <p className="text-xs leading-relaxed text-slate-300">
-                    {step}
-                  </p>
-                </div>
-              ))}
+              {(aiResult ? aiResult.workflow : fallbackResult!.workflow).map(
+                (step, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-[10px] font-bold text-emerald-400">
+                      {i + 1}
+                    </span>
+                    <p className="text-xs leading-relaxed text-slate-300">
+                      {step}
+                    </p>
+                  </div>
+                )
+              )}
             </div>
           </div>
 
+          {/* AI 对比分析（仅 AI 模式） */}
+          {aiResult?.comparison && (
+            <div className="rounded-2xl border border-purple-500/20 bg-purple-500/5 p-5">
+              <h4 className="mb-2 flex items-center gap-2 text-sm font-bold text-purple-300">
+                <AlertCircle className="h-4 w-4" />
+                为什么不直接问 DeepSeek/豆包？
+              </h4>
+              <p className="text-xs leading-relaxed text-slate-300">
+                {aiResult.comparison}
+              </p>
+            </div>
+          )}
+
           {/* 行业建议 */}
           <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5">
-            <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-amber-300">
-              <Lightbulb className="h-4 w-4" />
-              行业专属建议
-            </h4>
-            <ul className="space-y-2">
-              {result.tips.map((tip, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-2 text-xs leading-relaxed text-slate-300"
-                >
-                  <span className="mt-0.5 text-amber-400">•</span>
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 搜索提示词 */}
-          <div className="rounded-2xl border border-slate-700 bg-slate-950/60 p-5">
-            <div className="mb-2 flex items-center justify-between">
-              <h4 className="flex items-center gap-2 text-sm font-bold text-slate-200">
-                <Search className="h-4 w-4 text-blue-400" />
-                推荐搜索关键词
+            <div className="mb-3 flex items-center justify-between">
+              <h4 className="flex items-center gap-2 text-sm font-bold text-amber-300">
+                <Lightbulb className="h-4 w-4" />
+                行业专属建议
               </h4>
               <button
-                onClick={handleCopyPrompt}
+                onClick={handleCopyTips}
                 className="flex items-center gap-1 rounded-lg bg-slate-800 px-2.5 py-1 text-[10px] text-slate-300 transition-all hover:bg-slate-700"
               >
                 {copied ? (
@@ -359,12 +485,19 @@ export default function AIMatchWizard() {
                 )}
               </button>
             </div>
-            <p className="rounded-lg bg-slate-900 px-3 py-2 text-xs text-slate-400">
-              {result.searchPrompt}
-            </p>
-            <p className="mt-2 text-[10px] text-slate-600">
-              复制后粘贴到 Perplexity / 秘塔 AI 搜索框中搜索
-            </p>
+            <ul className="space-y-2">
+              {(aiResult ? aiResult.tips : fallbackResult!.tips).map(
+                (tip, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-2 text-xs leading-relaxed text-slate-300"
+                  >
+                    <span className="mt-0.5 text-amber-400">•</span>
+                    {tip}
+                  </li>
+                )
+              )}
+            </ul>
           </div>
 
           {/* 重新匹配 */}
