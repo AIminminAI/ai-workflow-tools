@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { Zap, Search, PackageOpen } from "lucide-react";
+import { Zap, Search, PackageOpen, Wand2 } from "lucide-react";
 import { recipes } from "./data/recipes";
 import FilterPanel from "./components/FilterPanel";
 import RecipeCard from "./components/RecipeCard";
+import AIMatchWizard from "./components/AIMatchWizard";
 
 const STORAGE_KEY = "unlocked_recipes";
 
@@ -88,19 +89,45 @@ export default function Home() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/50 px-4 py-1.5 backdrop-blur-sm">
             <Zap className="h-3.5 w-3.5 text-blue-400" />
             <span className="text-xs font-medium text-slate-400">
-              2026 AI 搞钱配方商店
+              AI 工具匹配 + 实战配方
             </span>
           </div>
           <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-            <span className="text-slate-100">AI Recipe Shop</span>
+            <span className="text-slate-100">AI Match Wizard</span>
             <span className="mt-2 block text-gradient text-2xl sm:text-3xl lg:text-4xl">
-              拒绝理论，直接拿走搞钱工作流
+              不知道该用哪个 AI？选一下马上告诉你
             </span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-400 sm:text-base">
-            专为自媒体、电商、独立开发定制的 AI 组合拳配方
+            不知道该用什么 AI？先试匹配器，再拿精选配方
           </p>
         </header>
+
+        {/* ==================== AI Match Wizard（免费·任意行业） ==================== */}
+        <section className="mb-12">
+          <div className="mb-5 text-center">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5">
+              <Wand2 className="h-3.5 w-3.5 text-emerald-400" />
+              <span className="text-xs font-medium text-emerald-300">
+                AI 工具匹配器 · 免费 · 任意行业
+              </span>
+            </div>
+            <h2 className="text-xl font-bold text-slate-100 sm:text-2xl">
+              不知道该用哪个 AI？选一下，马上告诉你
+            </h2>
+            <p className="mt-1 text-xs text-slate-500">
+              航天、矿产、制造、电商……任何行业都能匹配到最佳 AI 工具组合
+            </p>
+          </div>
+          <AIMatchWizard />
+        </section>
+
+        {/* ==================== 分隔线 ==================== */}
+        <div className="mb-10 flex items-center gap-4">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+          <span className="text-xs text-slate-600">以下为精选实战配方</span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+        </div>
 
         {/* ==================== 主体：左筛选 + 右卡片 ==================== */}
         <div className="grid gap-6 lg:grid-cols-[300px_1fr] lg:gap-8">
@@ -171,7 +198,7 @@ export default function Home() {
         <footer className="mt-16 border-t border-slate-800/60 pt-6">
           <div className="flex flex-col items-center gap-3">
             <p className="text-xs text-slate-600">
-              AI Recipe Shop · 配方持续更新中 · 1.9 元解锁一个搞钱密码
+              AI Match Wizard · 免费匹配 + 精选配方 · 1.9 元解锁实战工作流
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-600">
               <Link

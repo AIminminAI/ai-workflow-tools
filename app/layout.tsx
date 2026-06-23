@@ -15,13 +15,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   // 部署到 Vercel 后，请将此 URL 替换为你的实际域名
   metadataBase: new URL("https://ai-workflow-tools.vercel.app"),
-  title: "AI Recipe Shop - 拒绝理论，直接拿走搞钱工作流",
+  title: "AI Match Wizard - 不知道该用哪个 AI？选一下马上告诉你",
   description:
-    "专为自媒体、电商、独立开发定制的 AI 组合拳配方。小红书爆款配图、AI 视频一键生成、跨境电商主图量产，3 套落地工作流，1.9 元解锁核心 Prompt。",
+    "免费 AI 工具匹配器：选行业、选需求、选预算，立刻推荐最佳 AI 工具组合。覆盖航天、矿产、制造、电商、自媒体等 12+ 行业，ChatGPT/Claude/DeepSeek/Kimi/Perplexity 等 20+ 工具精准匹配。另有精选实战配方 1.9 元解锁。",
   keywords: [
+    "AI 工具推荐",
+    "该用什么 AI",
+    "AI 匹配器",
     "AI 工作流",
+    "ChatGPT",
+    "Claude",
+    "DeepSeek",
+    "Kimi",
+    "Perplexity",
     "AI 搞钱",
-    "Midjourney 教程",
     "小红书爆款",
     "AI 视频生成",
     "跨境电商配图",
@@ -31,9 +38,9 @@ export const metadata: Metadata = {
   authors: [{ name: "AI Recipe Shop" }],
   creator: "AI Recipe Shop",
   openGraph: {
-    title: "AI Recipe Shop - 拒绝理论，直接拿走搞钱工作流",
+    title: "AI Match Wizard - 不知道该用哪个 AI？选一下马上告诉你",
     description:
-      "专为自媒体、电商、独立开发定制的 AI 组合拳配方。3 套落地工作流，1.9 元解锁核心 Prompt。",
+      "免费 AI 工具匹配器：选行业、选需求，立刻推荐最佳 AI 工具组合。覆盖 12+ 行业，20+ AI 工具精准匹配。",
     type: "website",
     locale: "zh_CN",
     siteName: "AI Recipe Shop",
@@ -48,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Recipe Shop - 拒绝理论，直接拿走搞钱工作流",
+    title: "AI Match Wizard - 不知道该用哪个 AI？选一下马上告诉你",
     description:
-      "专为自媒体、电商、独立开发定制的 AI 组合拳配方。1.9 元解锁核心 Prompt。",
+      "免费 AI 工具匹配器：覆盖 12+ 行业，20+ AI 工具精准匹配。",
     images: ["/og-image.png"],
   },
   robots: {
