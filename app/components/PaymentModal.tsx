@@ -29,6 +29,7 @@ export default function PaymentModal({
   const [code, setCode] = useState("");
   const [error, setError] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"wechat" | "alipay">("wechat");
   const inputRef = useRef<HTMLInputElement>(null);
 
   // ESC 键关闭 + 防止背景滚动
@@ -128,12 +129,36 @@ export default function PaymentModal({
           </p>
         </div>
 
+        {/* 付款方式切换 */}
+        <div className="flex gap-2 px-6 pb-3">
+          <button
+            onClick={() => setPaymentMethod("wechat")}
+            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium transition-all ${
+              paymentMethod === "wechat"
+                ? "bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/40"
+                : "bg-slate-800/50 text-slate-500 hover:text-slate-300"
+            }`}
+          >
+            💚 微信支付
+          </button>
+          <button
+            onClick={() => setPaymentMethod("alipay")}
+            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium transition-all ${
+              paymentMethod === "alipay"
+                ? "bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/40"
+                : "bg-slate-800/50 text-slate-500 hover:text-slate-300"
+            }`}
+          >
+            💙 支付宝
+          </button>
+        </div>
+
         {/* 二维码区域 */}
         <div className="px-6 pb-4">
           <div className="relative mx-auto flex aspect-square w-44 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
             <img
-              src="/qrcode-personal.png"
-              alt="微信/支付宝收款码"
+              src={paymentMethod === "wechat" ? "/wechat-qr.png" : "/alipay-qr.jpg"}
+              alt={paymentMethod === "wechat" ? "微信收款码" : "支付宝收款码"}
               className="h-full w-full object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
@@ -153,7 +178,7 @@ export default function PaymentModal({
             </div>
           </div>
           <p className="mt-2 text-center text-[11px] text-slate-500">
-            微信/支付宝扫码 · 付款后截图发客服秒发激活码
+            {paymentMethod === "wechat" ? "微信" : "支付宝"}扫码 · 付款后截图发客服秒发激活码
           </p>
         </div>
 
