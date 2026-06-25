@@ -23,7 +23,7 @@ export default function FilterPanel({
   return (
     <aside className="lg:sticky lg:top-6 lg:h-fit space-y-6">
       {/* 身份选择 */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 backdrop-blur-sm">
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
         <div className="mb-3 flex items-center gap-2">
           <User className="h-4 w-4 text-blue-400" />
           <h3 className="text-sm font-semibold text-slate-200">你的身份</h3>
@@ -46,7 +46,7 @@ export default function FilterPanel({
       </div>
 
       {/* 预算倾向 */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 backdrop-blur-sm">
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
         <div className="mb-3 flex items-center gap-2">
           <Wallet className="h-4 w-4 text-emerald-400" />
           <h3 className="text-sm font-semibold text-slate-200">预算倾向</h3>
@@ -69,7 +69,7 @@ export default function FilterPanel({
       </div>
 
       {/* 目标产出 */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 backdrop-blur-sm">
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
         <div className="mb-3 flex items-center gap-2">
           <Target className="h-4 w-4 text-blue-400" />
           <h3 className="text-sm font-semibold text-slate-200">目标产出</h3>

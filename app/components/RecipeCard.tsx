@@ -59,11 +59,11 @@ export default function RecipeCard({
   return (
     <>
       <article
-        className="animate-card-in group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)]"
+        className="animate-card-in group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition-all duration-300 hover:border-slate-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)]"
         style={{ animationDelay: `${index * 80}ms` }}
       >
         {/* 装饰光晕 */}
-        <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-blue-500/5 blur-2xl transition-opacity duration-300 group-hover:bg-blue-500/10" />
+        <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-blue-500/5 transition-opacity duration-300 group-hover:bg-blue-500/10" />
 
         {/* 配方名称 */}
         <div className="mb-4 flex items-start justify-between gap-3">
@@ -187,7 +187,7 @@ export default function RecipeCard({
 
             {/* 模糊遮罩（未解锁时显示） */}
             {!isUnlocked && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950/70 backdrop-blur-[2px]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950/85">
                 <div className="flex flex-col items-center gap-2 px-4 text-center">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/15">
                     <Lock className="h-5 w-5 text-blue-400" />
@@ -222,7 +222,7 @@ export default function RecipeCard({
 
       {/* 复制成功 Toast 提示 */}
       {copied && (
-        <div className="animate-toast-in fixed bottom-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border border-emerald-500/30 bg-slate-900/95 px-5 py-3 shadow-2xl backdrop-blur-sm">
+        <div className="animate-toast-in fixed bottom-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border border-emerald-500/30 bg-slate-900/95 px-5 py-3 shadow-2xl">
           <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20">
             <PartyPopper className="h-3.5 w-3.5 text-emerald-400" />
           </div>

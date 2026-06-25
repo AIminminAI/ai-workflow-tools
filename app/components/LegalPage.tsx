@@ -11,10 +11,6 @@ interface LegalPageProps {
 export function LegalPage({ title, lastUpdated, children }: LegalPageProps) {
   return (
     <main className="relative min-h-screen flex-1">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-blue-500/5 blur-[120px]" />
-      </div>
-
       <div className="relative mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-12">
         <Link
           href="/"
@@ -37,7 +33,7 @@ export function LegalPage({ title, lastUpdated, children }: LegalPageProps) {
 
         <footer className="mt-12 border-t border-slate-800/60 pt-6">
           <p className="text-xs text-slate-600">
-            AI Recipe Shop · 如有疑问请联系微信：phone_15902953075
+            AI Match Wizard · 如有疑问请联系微信：phone_15902953075
           </p>
         </footer>
       </div>

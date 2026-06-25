@@ -92,7 +92,7 @@ export default function PaymentModal({
       className="animate-overlay-in fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-slate-950/85" />
 
       <div
         className={`animate-modal-in relative w-full max-w-sm overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl ${

@@ -73,20 +73,11 @@ export default function Home() {
   }, [selectedRole, selectedBudget, selectedTarget]);
 
   return (
-    <main className="relative flex-1 overflow-hidden">
-      {/* 背景装饰光晕 */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="animate-glow-pulse absolute -left-40 top-0 h-96 w-96 rounded-full bg-blue-500/10 blur-[120px]" />
-        <div
-          className="animate-glow-pulse absolute -right-40 top-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-[120px]"
-          style={{ animationDelay: "2s" }}
-        />
-      </div>
-
+    <main className="relative flex-1">
       <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         {/* ==================== 顶部 Header 与横幅 ==================== */}
         <header className="mb-10 text-center lg:mb-14">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/50 px-4 py-1.5 backdrop-blur-sm">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-1.5">
             <Zap className="h-3.5 w-3.5 text-blue-400" />
             <span className="text-xs font-medium text-slate-400">
               AI 工具匹配 + 实战配方
