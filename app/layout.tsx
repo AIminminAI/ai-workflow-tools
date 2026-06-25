@@ -35,21 +35,21 @@ export const metadata: Metadata = {
     "Prompt 模板",
     "AI 配方",
   ],
-  authors: [{ name: "AI Recipe Shop" }],
-  creator: "AI Recipe Shop",
+  authors: [{ name: "AI Match Wizard" }],
+  creator: "AI Match Wizard",
   openGraph: {
     title: "AI Match Wizard - 不知道该用哪个 AI？选一下马上告诉你",
     description:
       "免费 AI 工具匹配器：选行业、选需求，立刻推荐最佳 AI 工具组合。覆盖 12+ 行业，20+ AI 工具精准匹配。",
     type: "website",
     locale: "zh_CN",
-    siteName: "AI Recipe Shop",
+    siteName: "AI Match Wizard",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "AI Recipe Shop - AI 搞钱工作流配方商店",
+        alt: "AI Match Wizard - 免费 AI 工具匹配器",
       },
     ],
   },

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import {
   X,
-  QrCode,
   KeyRound,
   AlertCircle,
   Loader2,
@@ -143,11 +142,14 @@ export default function PaymentModal({
                 );
               }}
             />
-            {/* 占位提示（图片加载失败时显示） */}
-            <div className="hidden flex-col items-center gap-2 text-slate-600">
-              <QrCode className="h-14 w-14" strokeWidth={1} />
-              <p className="text-[10px]">收款二维码</p>
-              <p className="text-[9px] text-slate-700">待替换</p>
+            {/* 占位提示（图片不存在时显示微信号直接收款） */}
+            <div className="hidden flex-col items-center gap-2 px-4 text-center">
+              <MessageCircle className="h-10 w-10 text-emerald-500" strokeWidth={1.5} />
+              <p className="text-xs text-slate-400">加微信付款</p>
+              <p className="text-[10px] text-slate-500">秒发激活码</p>
+              <code className="rounded bg-slate-800 px-2 py-1 text-[11px] text-emerald-400">
+                {WECHAT_ID}
+              </code>
             </div>
           </div>
           <p className="mt-2 text-center text-[11px] text-slate-500">
