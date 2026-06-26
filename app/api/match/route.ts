@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
+// AI API 配置：默认使用硅基流动 SiliconFlow（免费提供 DeepSeek-V3）
+// 用户也可通过环境变量切换回 DeepSeek 官方 API
+const AI_API_URL =
+  process.env.AI_API_URL || "https://api.siliconflow.cn/v1/chat/completions";
+const AI_API_KEY = process.env.AI_API_KEY || process.env.DEEPSEEK_API_KEY;
+const AI_MODEL = process.env.AI_MODEL || "deepseek-ai/DeepSeek-V3";
+
 const SYSTEM_PROMPT = `你是一位顶级的 AI 工具选型专家，精通 2025-2026 年所有主流 AI 工具的能力边界、适用场景和性价比。
 
 你的任务：根据用户的行业、需求和预算，推荐最适合的 AI 工具组合。
@@ -64,13 +71,11 @@ export async function POST(req: NextRequest) {
   try {
     const { industry, task, budget, description } = await req.json();
 
-    const apiKey = process.env.DEEPSEEK_API_KEY;
-
-    // 如果没有 API Key，返回错误提示
-    if (!apiKey) {
+    // 如果没有 API Key，返回错误提示，触发前端降级
+    if (!AI_API_KEY) {
       return NextResponse.json(
         {
-          error: "DEEPSEEK_API_KEY 未配置",
+          error: "AI_API_KEY 未配置",
           fallback: true,
         },
         { status: 503 }
@@ -84,14 +89,14 @@ ${description ? `具体问题：${description}` : ""}
 
 请根据以上信息推荐最适合的 AI 工具组合，返回 JSON。`;
 
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    const response = await fetch(AI_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${AI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: AI_MODEL,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: userPrompt },

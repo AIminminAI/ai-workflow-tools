@@ -81,7 +81,7 @@ export const recipes: Recipe[] = [
     hiddenTool: "Magnific AI 官方直达（新用户送 20 积分）",
     hiddenToolUrl: "aHR0cHMlM0ElMkYlMkZtYWduaWZpYy5haQ==",
     activationHash:
-      "457cd6527cdcd967926a5fb2c285b2ee58f14be2cf4ec6aef326d204db5c281b",
+      "b1e5c30b9bb005b1f14f93e06467c28c2dbaa89c766ee914399ad326da72164e",
     isLocked: true,
   },
   {
@@ -101,7 +101,7 @@ export const recipes: Recipe[] = [
     hiddenTool: "Runway Gen-3 Alpha 体验入口",
     hiddenToolUrl: "aHR0cHMlM0ElMkYlMkZydW53YXltbC5jb20=",
     activationHash:
-      "667e15da8ea3deaf92b5f5d35b791f5134c505d891dc29d2a96f195d1fb57f81",
+      "b9ca69b983ed63667e67f82fe91bd674dfb1445bc97b0b5eefc45ec1d77cead7",
     isLocked: true,
   },
   {
@@ -121,7 +121,7 @@ export const recipes: Recipe[] = [
     hiddenTool: "Photoroom 批量处理入口（免费额度充足）",
     hiddenToolUrl: "aHR0cHMlM0ElMkYlMkZ3d3cucGhvdG9yb29tLmNvbQ==",
     activationHash:
-      "ba408d3e16016c499d701a10ea4ae0932ee44686ba7b13a5c0aca98941cdd0a5",
+      "072bd6fe92341819b5c27b3907060a594c1877672b9f8279eecc512e9dabb004",
     isLocked: true,
   },
 ];
