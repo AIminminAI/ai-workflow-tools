@@ -33,9 +33,9 @@ export default function FilterPanel({
             <button
               key={role}
               onClick={() => onRoleChange(role)}
-              className={`rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 ${
+              className={`rounded-xl px-3 py-2.5 text-xs font-medium transition-colors duration-150 ${
                 selectedRole === role
-                  ? "bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/50 shadow-[0_0_12px_rgba(59,130,246,0.25)]"
+                  ? "bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/50"
                   : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
               }`}
             >
@@ -56,9 +56,9 @@ export default function FilterPanel({
             <button
               key={budget}
               onClick={() => onBudgetChange(budget)}
-              className={`rounded-xl px-4 py-2.5 text-xs font-medium transition-all duration-200 ${
+              className={`rounded-xl px-4 py-2.5 text-xs font-medium transition-colors duration-150 ${
                 selectedBudget === budget
-                  ? "bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)]"
+                  ? "bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/50"
                   : "bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
               }`}
             >
@@ -78,7 +78,7 @@ export default function FilterPanel({
           <select
             value={selectedTarget}
             onChange={(e) => onTargetChange(e.target.value)}
-            className="w-full appearance-none rounded-xl border border-slate-700 bg-slate-800/50 px-4 py-2.5 pr-10 text-xs font-medium text-slate-200 transition-all duration-200 hover:border-slate-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50"
+            className="w-full appearance-none rounded-xl border border-slate-700 bg-slate-800/50 px-4 py-2.5 pr-10 text-xs font-medium text-slate-200 transition-colors duration-150 hover:border-slate-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/50"
           >
             {filterOptions.targets.map((target) => (
               <option key={target} value={target} className="bg-slate-800">

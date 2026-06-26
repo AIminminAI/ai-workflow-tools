@@ -146,7 +146,7 @@ export default function AIMatchWizard() {
           {["行业", "需求", "预算"].map((label, i) => (
             <div key={label} className="flex items-center gap-2">
               <div
-                className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-colors duration-150 ${
                   i <= currentStepIndex
                     ? "bg-blue-500 text-white"
                     : "bg-slate-800 text-slate-500"
@@ -184,9 +184,9 @@ export default function AIMatchWizard() {
               <button
                 key={ind.id}
                 onClick={() => handleIndustrySelect(ind.id)}
-                className="group flex flex-col items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-4 transition-all duration-200 hover:border-blue-500/50 hover:bg-blue-500/10 hover:scale-[1.03]"
+                className="group flex flex-col items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-4 transition-colors duration-150 hover:border-blue-500/50 hover:bg-blue-500/10"
               >
-                <span className="text-2xl transition-transform duration-200 group-hover:scale-110">
+                <span className="text-2xl">
                   {ind.emoji}
                 </span>
                 <span className="text-xs font-medium text-slate-300 group-hover:text-blue-300">
@@ -215,9 +215,9 @@ export default function AIMatchWizard() {
               <button
                 key={t.id}
                 onClick={() => handleTaskSelect(t.id)}
-                className="group flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-900/60 px-4 py-3.5 text-left transition-all duration-200 hover:border-blue-500/50 hover:bg-blue-500/10"
+                className="group flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-900/60 px-4 py-3.5 text-left transition-colors duration-150 hover:border-blue-500/50 hover:bg-blue-500/10"
               >
-                <span className="text-xl transition-transform duration-200 group-hover:scale-110">
+                <span className="text-xl">
                   {t.emoji}
                 </span>
                 <div>
@@ -256,13 +256,13 @@ export default function AIMatchWizard() {
               <button
                 key={b.id}
                 onClick={() => setBudget(b.id)}
-                className={`group flex flex-col items-center gap-1.5 rounded-xl border px-4 py-5 transition-all duration-200 hover:scale-[1.03] ${
+                className={`group flex flex-col items-center gap-1.5 rounded-xl border px-4 py-5 transition-colors duration-150 ${
                   budget === b.id
                     ? "border-blue-500 bg-blue-500/10"
                     : "border-slate-700 bg-slate-900/60 hover:border-blue-500/50 hover:bg-blue-500/10"
                 }`}
               >
-                <span className="text-2xl transition-transform duration-200 group-hover:scale-110">
+                <span className="text-2xl">
                   {b.emoji}
                 </span>
                 <span className="text-sm font-semibold text-slate-200 group-hover:text-blue-300">
@@ -294,7 +294,7 @@ export default function AIMatchWizard() {
           <button
             onClick={handleMatch}
             disabled={!budget}
-            className="mx-auto mt-5 flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 text-sm font-bold text-white transition-all hover:from-blue-400 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
+            className="mx-auto mt-5 flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 text-sm font-bold text-white transition-colors duration-150 hover:from-blue-400 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Sparkles className="h-4 w-4" />
             让 AI 帮我匹配
@@ -357,12 +357,10 @@ export default function AIMatchWizard() {
                       ? aiResult.primary.name
                       : fallbackResult!.primary.name}
                   </h4>
-                  {!isFallback && (
-                    <>
-                      <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
-                        {fallbackResult?.primary.pricing || ""}
-                      </span>
-                    </>
+                  {isFallback && (
+                    <span className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
+                      {fallbackResult!.primary.pricing}
+                    </span>
                   )}
                 </div>
                 <p className="mt-1 text-xs text-slate-400">
@@ -383,7 +381,7 @@ export default function AIMatchWizard() {
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-blue-500/20 px-3 py-1.5 text-xs font-medium text-blue-300 transition-all hover:bg-blue-500/30"
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-blue-500/20 px-3 py-1.5 text-xs font-medium text-blue-300 transition-colors duration-150 hover:bg-blue-500/30"
                 >
                   立即使用
                   <ExternalLink className="h-3 w-3" />
@@ -412,7 +410,7 @@ export default function AIMatchWizard() {
                   href={tool.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 rounded-xl border border-slate-700 bg-slate-950/40 px-3 py-2.5 transition-all hover:border-slate-600 hover:bg-slate-800/40"
+                  className="group flex items-center gap-3 rounded-xl border border-slate-700 bg-slate-950/40 px-3 py-2.5 transition-colors duration-150 hover:border-slate-600 hover:bg-slate-800/40"
                 >
                   <div className="flex-1">
                     <span className="text-xs font-semibold text-slate-200 group-hover:text-blue-300">
@@ -470,7 +468,7 @@ export default function AIMatchWizard() {
               </h4>
               <button
                 onClick={handleCopyTips}
-                className="flex items-center gap-1 rounded-lg bg-slate-800 px-2.5 py-1 text-[10px] text-slate-300 transition-all hover:bg-slate-700"
+                className="flex items-center gap-1 rounded-lg bg-slate-800 px-2.5 py-1 text-[10px] text-slate-300 transition-colors duration-150 hover:bg-slate-700"
               >
                 {copied ? (
                   <>
@@ -503,7 +501,7 @@ export default function AIMatchWizard() {
           {/* 重新匹配 */}
           <button
             onClick={handleReset}
-            className="mx-auto flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-blue-500/50 hover:bg-blue-500/10 hover:text-blue-300"
+            className="mx-auto flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-300 transition-colors duration-150 hover:border-blue-500/50 hover:bg-blue-500/10 hover:text-blue-300"
           >
             <RotateCcw className="h-4 w-4" />
             重新匹配

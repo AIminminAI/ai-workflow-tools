@@ -59,11 +59,11 @@ export default function RecipeCard({
   return (
     <>
       <article
-        className="animate-card-in group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition-all duration-300 hover:border-slate-700 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)]"
+        className="animate-card-in group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition-colors duration-150 hover:border-slate-700"
         style={{ animationDelay: `${index * 80}ms` }}
       >
         {/* 装饰光晕 */}
-        <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-blue-500/5 transition-opacity duration-300 group-hover:bg-blue-500/10" />
+        <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-blue-500/5 transition-colors duration-150 group-hover:bg-blue-500/10" />
 
         {/* 配方名称 */}
         <div className="mb-4 flex items-start justify-between gap-3">
@@ -136,7 +136,7 @@ export default function RecipeCard({
                   {isUnlocked && (
                     <button
                       onClick={handleCopy}
-                      className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all duration-200 ${
+                      className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors duration-150 ${
                         copied
                           ? "animate-unlock-pulse bg-emerald-500/20 text-emerald-300"
                           : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
@@ -169,7 +169,7 @@ export default function RecipeCard({
                 onClick={(e) => {
                   if (!isUnlocked) e.preventDefault();
                 }}
-                className={`flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/40 px-3 py-2.5 transition-all duration-200 ${
+                className={`flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/40 px-3 py-2.5 transition-colors duration-150 ${
                   isUnlocked
                     ? "hover:border-blue-500/50 hover:bg-slate-800/80"
                     : "pointer-events-none"
@@ -201,7 +201,7 @@ export default function RecipeCard({
                 </div>
                 <button
                   onClick={() => setModalOpen(true)}
-                  className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-2 text-xs font-semibold text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-200 hover:scale-105 hover:shadow-[0_0_28px_rgba(59,130,246,0.6)]"
+                  className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-2 text-xs font-semibold text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-colors duration-150 hover:from-blue-400 hover:to-blue-500"
                 >
                   <Lightbulb className="h-3.5 w-3.5" />
                   立即解锁

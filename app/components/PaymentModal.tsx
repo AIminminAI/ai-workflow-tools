@@ -103,7 +103,7 @@ export default function PaymentModal({
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition-all duration-200 hover:bg-slate-800 hover:text-slate-300"
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition-colors duration-150 hover:bg-slate-800 hover:text-slate-300"
           aria-label="关闭"
         >
           <X className="h-4 w-4" />
@@ -133,7 +133,7 @@ export default function PaymentModal({
         <div className="flex gap-2 px-6 pb-3">
           <button
             onClick={() => setPaymentMethod("wechat")}
-            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium transition-all ${
+            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-150 ${
               paymentMethod === "wechat"
                 ? "bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-500/40"
                 : "bg-slate-800/50 text-slate-500 hover:text-slate-300"
@@ -143,7 +143,7 @@ export default function PaymentModal({
           </button>
           <button
             onClick={() => setPaymentMethod("alipay")}
-            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium transition-all ${
+            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-150 ${
               paymentMethod === "alipay"
                 ? "bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/40"
                 : "bg-slate-800/50 text-slate-500 hover:text-slate-300"
@@ -192,7 +192,7 @@ export default function PaymentModal({
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder="请输入付款后获得的激活码"
-              className={`w-full rounded-xl border bg-slate-950/60 px-4 py-3 text-sm text-slate-200 placeholder-slate-600 transition-all duration-200 focus:outline-none ${
+              className={`w-full rounded-xl border bg-slate-950/60 px-4 py-3 text-sm text-slate-200 placeholder-slate-600 transition-colors duration-150 focus:outline-none ${
                 error
                   ? "border-red-500/60 focus:border-red-500 focus:ring-1 focus:ring-red-500/30"
                   : "border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
@@ -209,7 +209,7 @@ export default function PaymentModal({
           <button
             onClick={handleVerify}
             disabled={verifying}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_28px_rgba(59,130,246,0.5)] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-colors duration-150 hover:from-blue-400 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {verifying ? (
               <>
