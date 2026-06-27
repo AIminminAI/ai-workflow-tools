@@ -61,6 +61,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" className="h-full antialiased">
+      <head>
+        {/* 预加载支付二维码：用户点"立即解锁"时弹窗瞬间显示，避免白屏卡顿 */}
+        <link rel="preload" as="image" href="/wechat-qr.png" />
+        <link rel="preload" as="image" href="/alipay-qr.jpg" />
+        {/* 预解析 AI API 域名：减少首次匹配请求的 DNS+TLS 握手时间 */}
+        <link rel="dns-prefetch" href="https://api.siliconflow.cn" />
+        <link rel="preconnect" href="https://api.siliconflow.cn" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-200">
         {children}
       </body>
