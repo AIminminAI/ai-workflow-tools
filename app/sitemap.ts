@@ -1,28 +1,30 @@
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: "/",
-      lastModified: new Date(),
+      lastModified: "2026-06-26",
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: "/terms",
-      lastModified: new Date(),
+      lastModified: "2026-06-26",
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: "/privacy",
-      lastModified: new Date(),
+      lastModified: "2026-06-26",
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: "/refund",
-      lastModified: new Date(),
+      lastModified: "2026-06-26",
       changeFrequency: "yearly",
       priority: 0.3,
     },
