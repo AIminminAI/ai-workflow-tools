@@ -45,7 +45,7 @@ export const AI_TOOLS: AITool[] = [
     desc: "OpenAI 旗舰模型，通用能力最强，支持文字/图片/语音多模态",
     pricing: "免费+付费",
     region: "国际",
-    url: "https://chat.openai.com",
+    url: "https://chatgpt.com",
   },
   {
     id: "chatgpt-o1",
@@ -55,7 +55,7 @@ export const AI_TOOLS: AITool[] = [
     desc: "OpenAI 深度推理模型，擅长复杂数学、科研、逻辑链分析",
     pricing: "付费",
     region: "国际",
-    url: "https://chat.openai.com",
+    url: "https://chatgpt.com",
   },
   {
     id: "claude-opus",

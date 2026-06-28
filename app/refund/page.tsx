@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { LegalPage, Section } from "../components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "退款政策 - AI Recipe Shop",
-  description: "AI Recipe Shop 退款政策与售后说明",
+  title: "退款政策 - AI Match Wizard",
+  description: "AI Match Wizard 退款政策与售后说明",
 };
 
 export default function RefundPage() {

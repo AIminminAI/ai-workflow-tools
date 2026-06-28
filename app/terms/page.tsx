@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { LegalPage, Section } from "../components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "用户协议 - AI Recipe Shop",
-  description: "AI Recipe Shop 用户协议与服务条款",
+  title: "用户协议 - AI Match Wizard",
+  description: "AI Match Wizard 用户协议与服务条款",
 };
 
 export default function TermsPage() {
@@ -11,7 +11,7 @@ export default function TermsPage() {
     <LegalPage title="用户协议" lastUpdated="2026年6月17日">
       <Section title="一、服务说明">
         <p>
-          AI Recipe Shop（以下简称"本站"）是一个提供 AI 工作流配方展示与解锁服务的单页应用。用户可免费浏览配方基本信息，通过支付小额费用获取核心 Prompt 模板与隐藏工具链接。
+          AI Match Wizard（以下简称"本站"）是一个提供 AI 工作流配方展示与解锁服务的单页应用。用户可免费浏览配方基本信息，通过支付小额费用获取核心 Prompt 模板与隐藏工具链接。
         </p>
         <p>
           本站所有配方内容均为原创整理，旨在帮助用户快速掌握 AI 工具的组合使用方法，提升工作效率。
