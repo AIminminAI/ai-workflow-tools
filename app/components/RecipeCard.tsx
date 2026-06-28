@@ -2,38 +2,26 @@
 
 import { useState } from "react";
 import {
-  Lock,
-  Unlock,
   Copy,
   Check,
   Link2,
   ArrowRight,
   Sparkles,
-  Lightbulb,
   PartyPopper,
 } from "lucide-react";
 import { decode, type Recipe } from "../data/recipes";
-import PaymentModal from "./PaymentModal";
 
 interface RecipeCardProps {
   recipe: Recipe;
-  isUnlocked: boolean;
-  onUnlock: (id: number) => void;
   index: number;
 }
 
-export default function RecipeCard({
-  recipe,
-  isUnlocked,
-  onUnlock,
-  index,
-}: RecipeCardProps) {
-  const [modalOpen, setModalOpen] = useState(false);
+export default function RecipeCard({ recipe, index }: RecipeCardProps) {
   const [copied, setCopied] = useState(false);
 
-  // 解锁后动态解码核心内容
-  const decodedPrompt = isUnlocked ? decode(recipe.hiddenPrompt) : "";
-  const decodedUrl = isUnlocked ? decode(recipe.hiddenToolUrl) : "";
+  // 免费模式：直接解码核心内容
+  const decodedPrompt = decode(recipe.hiddenPrompt);
+  const decodedUrl = decode(recipe.hiddenToolUrl);
 
   const handleCopy = async () => {
     try {
@@ -51,11 +39,6 @@ export default function RecipeCard({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleUnlockSuccess = () => {
-    onUnlock(recipe.id);
-    setModalOpen(false);
-  };
-
   return (
     <>
       <article
@@ -70,9 +53,9 @@ export default function RecipeCard({
           <h3 className="text-lg font-bold leading-snug text-slate-100">
             {recipe.title}
           </h3>
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-slate-800/80 px-2.5 py-1 text-[10px] font-medium text-slate-400">
-            <Sparkles className="h-3 w-3 text-blue-400" />
-            配方 #{recipe.id}
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[10px] font-medium text-emerald-400">
+            <Sparkles className="h-3 w-3" />
+            免费 · 配方 #{recipe.id}
           </span>
         </div>
 
@@ -112,110 +95,58 @@ export default function RecipeCard({
           </ol>
         </div>
 
-        {/* 核心壁垒区域 */}
+        {/* 独家 Prompt 模板（免费直接展示） */}
         <div className="relative">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-emerald-500/80">
-            核心壁垒 · 独家配方
+            独家 Prompt 模板 · 免费
           </p>
 
-          <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-950/60">
-            {/* 真实内容（解锁后可见，未解锁时模糊 + 防拷贝） */}
-            <div
-              className={`p-4 transition-all duration-500 ${
-                isUnlocked
-                  ? "blur-0 opacity-100"
-                  : "select-none blur-xl opacity-60"
-              }`}
-            >
-              {/* Prompt 模板 */}
-              <div className="mb-3">
-                <div className="mb-1.5 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-300">
-                    独家暗黑 Prompt 模板
-                  </span>
-                  {isUnlocked && (
-                    <button
-                      onClick={handleCopy}
-                      className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors duration-150 ${
-                        copied
-                          ? "animate-unlock-pulse bg-emerald-500/20 text-emerald-300"
-                          : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
-                      }`}
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="h-3 w-3" />
-                          复制成功
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3 w-3" />
-                          一键复制
-                        </>
-                      )}
-                    </button>
-                  )}
-                </div>
-                <pre className="overflow-x-auto rounded-lg bg-slate-900/80 p-3 font-mono text-[11px] leading-relaxed text-emerald-300/90 whitespace-pre-wrap break-all">
-                  {isUnlocked ? decodedPrompt : "🔒 解锁后查看完整 Prompt 模板..."}
-                </pre>
-              </div>
-
-              {/* 隐藏工具链接 */}
-              <a
-                href={isUnlocked ? decodedUrl : "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  if (!isUnlocked) e.preventDefault();
-                }}
-                className={`flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/40 px-3 py-2.5 transition-colors duration-150 ${
-                  isUnlocked
-                    ? "hover:border-blue-500/50 hover:bg-slate-800/80"
-                    : "pointer-events-none"
-                }`}
-              >
-                <span className="flex items-center gap-2 text-xs text-slate-300">
-                  <Link2 className="h-3.5 w-3.5 text-blue-400" />
-                  {recipe.hiddenTool}
+          <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+            {/* Prompt 模板 */}
+            <div className="mb-3">
+              <div className="mb-1.5 flex items-center justify-between">
+                <span className="text-xs font-semibold text-slate-300">
+                  独家暗黑 Prompt 模板
                 </span>
-                {isUnlocked && (
-                  <ArrowRight className="h-3.5 w-3.5 text-slate-600" />
-                )}
-              </a>
-            </div>
-
-            {/* 模糊遮罩（未解锁时显示） */}
-            {!isUnlocked && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950/85">
-                <div className="flex flex-col items-center gap-2 px-4 text-center">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/15">
-                    <Lock className="h-5 w-5 text-blue-400" />
-                  </div>
-                  <p className="text-sm font-medium text-slate-300">
-                    支付 1.9 元解锁该核心搞钱配方
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    解锁后可查看独家 Prompt 与一键复制
-                  </p>
-                </div>
                 <button
-                  onClick={() => setModalOpen(true)}
-                  className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-2 text-xs font-semibold text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-colors duration-150 hover:from-blue-400 hover:to-blue-500"
+                  onClick={handleCopy}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors duration-150 ${
+                    copied
+                      ? "animate-unlock-pulse bg-emerald-500/20 text-emerald-300"
+                      : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
+                  }`}
                 >
-                  <Lightbulb className="h-3.5 w-3.5" />
-                  立即解锁
+                  {copied ? (
+                    <>
+                      <Check className="h-3 w-3" />
+                      复制成功
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3 w-3" />
+                      一键复制
+                    </>
+                  )}
                 </button>
               </div>
-            )}
+              <pre className="overflow-x-auto rounded-lg bg-slate-900/80 p-3 font-mono text-[11px] leading-relaxed text-emerald-300/90 whitespace-pre-wrap break-all">
+                {decodedPrompt}
+              </pre>
+            </div>
 
-            {/* 已解锁标识 */}
-            {isUnlocked && (
-              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[10px] font-medium text-emerald-400">
-                <Unlock className="h-3 w-3" />
-                已解锁
-              </div>
-            )}
+            {/* 隐藏工具链接 */}
+            <a
+              href={decodedUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/40 px-3 py-2.5 transition-colors duration-150 hover:border-blue-500/50 hover:bg-slate-800/80"
+            >
+              <span className="flex items-center gap-2 text-xs text-slate-300">
+                <Link2 className="h-3.5 w-3.5 text-blue-400" />
+                {recipe.hiddenTool}
+              </span>
+              <ArrowRight className="h-3.5 w-3.5 text-slate-600" />
+            </a>
           </div>
         </div>
       </article>
@@ -231,14 +162,6 @@ export default function RecipeCard({
           </span>
         </div>
       )}
-
-      {/* 付费 Modal */}
-      <PaymentModal
-        isOpen={modalOpen}
-        activationHash={recipe.activationHash}
-        onClose={() => setModalOpen(false)}
-        onConfirm={handleUnlockSuccess}
-      />
     </>
   );
 }

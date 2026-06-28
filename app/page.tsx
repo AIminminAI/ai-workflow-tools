@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Zap } from "lucide-react";
 import HomeClient from "./components/HomeClient";
+import DonateSection from "./components/DonateSection";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-1.5">
             <Zap className="h-3.5 w-3.5 text-blue-400" />
             <span className="text-xs font-medium text-slate-400">
-              AI 工具匹配 + 实战配方
+              AI 工具匹配 + 实战配方 · 全部免费
             </span>
           </div>
           <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
@@ -21,7 +22,7 @@ export default function Home() {
             </span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-400 sm:text-base">
-            不知道该用什么 AI？先试匹配器，再拿精选配方
+            不知道该用什么 AI？先试匹配器，再拿精选配方，全部免费
           </p>
         </header>
 
@@ -82,7 +83,7 @@ export default function Home() {
                 <span className="text-xs font-semibold text-slate-200">精选搞钱配方</span>
               </div>
               <p className="text-[11px] leading-relaxed text-slate-500">
-                1.9 元买验证过的工作流+独家 Prompt 模板，AI 临场编的不如验证过的靠谱
+                验证过的工作流+独家 Prompt 模板，全部免费，AI 临场编的不如验证过的靠谱
               </p>
             </div>
           </div>
@@ -91,11 +92,14 @@ export default function Home() {
         {/* ==================== 客户端交互部分（hydration 后激活） ==================== */}
         <HomeClient />
 
+        {/* ==================== 打赏区（免费内容，自愿打赏） ==================== */}
+        <DonateSection />
+
         {/* ==================== 底部（SSR 立即显示） ==================== */}
         <footer className="mt-16 border-t border-slate-800/60 pt-6">
           <div className="flex flex-col items-center gap-3">
             <p className="text-xs text-slate-600">
-              AI Match Wizard · 免费匹配 + 精选配方 · 1.9 元解锁实战工作流
+              AI Match Wizard · 免费匹配 + 精选配方 · 全部免费 · 自愿打赏
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-600">
               <Link
@@ -116,7 +120,7 @@ export default function Home() {
                 href="/refund"
                 className="transition-colors hover:text-slate-400"
               >
-                退款政策
+                打赏说明
               </Link>
             </div>
           </div>

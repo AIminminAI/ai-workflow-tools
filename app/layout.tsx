@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ai-workflow-tools.vercel.app"),
   title: "AI Match Wizard - 不知道该用哪个 AI？选一下马上告诉你",
   description:
-    "免费 AI 工具匹配器：选行业、选需求、选预算，立刻推荐最佳 AI 工具组合。覆盖航天、矿产、制造、电商、自媒体等 12+ 行业，ChatGPT/Claude/DeepSeek/Kimi/Perplexity 等 20+ 工具精准匹配。另有精选实战配方 1.9 元解锁。",
+    "免费 AI 工具匹配器 + 精选实战配方，全部免费、自愿打赏。选行业、选需求、选预算，立刻推荐最佳 AI 工具组合。覆盖航天、矿产、制造、电商、自媒体等 12+ 行业，ChatGPT/Claude/DeepSeek/Kimi/Perplexity 等 20+ 工具精准匹配。",
   keywords: [
     "AI 工具推荐",
     "该用什么 AI",
@@ -62,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="h-full antialiased">
       <head>
-        {/* 预加载支付二维码：用户点"立即解锁"时弹窗瞬间显示，避免白屏卡顿 */}
+        {/* 预加载打赏二维码：用户滑到打赏区时立即显示，避免白屏卡顿 */}
         <link rel="preload" as="image" href="/wechat-qr.png" />
         <link rel="preload" as="image" href="/alipay-qr.jpg" />
         {/* 预解析 AI API 域名：减少首次匹配请求的 DNS+TLS 握手时间 */}

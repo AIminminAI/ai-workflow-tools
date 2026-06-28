@@ -82,7 +82,7 @@ export const recipes: Recipe[] = [
     hiddenToolUrl: "aHR0cHMlM0ElMkYlMkZtYWduaWZpYy5haQ==",
     activationHash:
       "b1e5c30b9bb005b1f14f93e06467c28c2dbaa89c766ee914399ad326da72164e",
-    isLocked: true,
+    isLocked: false,
   },
   {
     id: 2,
@@ -102,7 +102,7 @@ export const recipes: Recipe[] = [
     hiddenToolUrl: "aHR0cHMlM0ElMkYlMkZydW53YXltbC5jb20=",
     activationHash:
       "b9ca69b983ed63667e67f82fe91bd674dfb1445bc97b0b5eefc45ec1d77cead7",
-    isLocked: true,
+    isLocked: false,
   },
   {
     id: 3,
@@ -122,7 +122,7 @@ export const recipes: Recipe[] = [
     hiddenToolUrl: "aHR0cHMlM0ElMkYlMkZ3d3cucGhvdG9yb29tLmNvbQ==",
     activationHash:
       "072bd6fe92341819b5c27b3907060a594c1877672b9f8279eecc512e9dabb004",
-    isLocked: true,
+    isLocked: false,
   },
 ];
 

@@ -1,54 +1,17 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Search, PackageOpen, Wand2 } from "lucide-react";
 import { recipes } from "../data/recipes";
 import FilterPanel from "./FilterPanel";
 import RecipeCard from "./RecipeCard";
 import AIMatchWizard from "./AIMatchWizard";
 
-const STORAGE_KEY = "unlocked_recipes";
-
 export default function HomeClient() {
   // 筛选状态
   const [selectedRole, setSelectedRole] = useState("小红书博主");
   const [selectedBudget, setSelectedBudget] = useState("性价比狂魔");
   const [selectedTarget, setSelectedTarget] = useState("量产爆款配图");
-
-  // 解锁状态：保存已解锁卡片的 id 数组
-  const [unlockedIds, setUnlockedIds] = useState<number[]>([]);
-  // 防止 hydration 不匹配：客户端挂载后才读取 localStorage
-  const [mounted, setMounted] = useState(false);
-
-  // 页面初始化时从 localStorage 读取已解锁的配方
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const ids: number[] = JSON.parse(stored);
-        if (Array.isArray(ids)) {
-          setUnlockedIds(ids);
-        }
-      }
-    } catch {
-      // localStorage 不可用或数据损坏，静默忽略
-    }
-    setMounted(true);
-  }, []);
-
-  // 解锁某张卡片：更新 state 并持久化到 localStorage
-  const handleUnlock = (id: number) => {
-    setUnlockedIds((prev) => {
-      if (prev.includes(id)) return prev;
-      const next = [...prev, id];
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        // localStorage 写入失败，静默忽略
-      }
-      return next;
-    });
-  };
 
   // 筛选逻辑：按匹配度评分排序，至少匹配一个维度即展示
   const filteredRecipes = useMemo(() => {
@@ -95,7 +58,7 @@ export default function HomeClient() {
       {/* ==================== 分隔线 ==================== */}
       <div className="mb-10 flex items-center gap-4">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-        <span className="text-xs text-slate-600">以下为精选实战配方</span>
+        <span className="text-xs text-slate-600">以下为精选实战配方（全部免费）</span>
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
       </div>
 
@@ -142,15 +105,7 @@ export default function HomeClient() {
           {filteredRecipes.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-2">
               {filteredRecipes.map((recipe, index) => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  isUnlocked={
-                    mounted && unlockedIds.includes(recipe.id)
-                  }
-                  onUnlock={handleUnlock}
-                  index={index}
-                />
+                <RecipeCard key={recipe.id} recipe={recipe} index={index} />
               ))}
             </div>
           ) : (
