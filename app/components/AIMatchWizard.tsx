@@ -51,6 +51,8 @@ export default function AIMatchWizard() {
   const [fallbackResult, setFallbackResult] = useState<MatchResult | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  // AI 增强中标记：立即显示静态结果，后台请求 AI，返回后替换
+  const [aiEnhancing, setAiEnhancing] = useState(false);
 
   const industryName =
     INDUSTRIES.find((i) => i.id === industry)?.name || "";
@@ -67,8 +69,18 @@ export default function AIMatchWizard() {
   };
 
   const handleMatch = async () => {
-    setStep("loading");
     setError("");
+
+    // 立即显示静态匹配结果，0 等待（永不卡 loading）
+    const fallback = matchTools(industry, task, budget);
+    setFallbackResult(fallback);
+    setAiResult(null);
+    setStep("result");
+    setAiEnhancing(true);
+
+    // 后台请求 AI 增强，10 秒超时，成功后平滑替换
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
       const res = await fetch("/api/match", {
@@ -80,7 +92,10 @@ export default function AIMatchWizard() {
           budget: BUDGETS.find((b) => b.id === budget)?.name || budget,
           description: description.trim(),
         }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!res.ok) {
         throw new Error("API 请求失败");
@@ -88,12 +103,9 @@ export default function AIMatchWizard() {
 
       const data = await res.json();
 
+      // API Key 未配置或降级标记，保持静态结果
       if (data.error && data.fallback) {
-        // API Key 未配置，降级到静态匹配
-        const fallback = matchTools(industry, task, budget);
-        setFallbackResult(fallback);
-        setAiResult(null);
-        setStep("result");
+        setAiEnhancing(false);
         return;
       }
 
@@ -101,15 +113,14 @@ export default function AIMatchWizard() {
         throw new Error(data.error);
       }
 
+      // AI 成功，替换静态结果
       setAiResult(data);
       setFallbackResult(null);
-      setStep("result");
+      setAiEnhancing(false);
     } catch (err) {
-      // 出错时降级到静态匹配
-      const fallback = matchTools(industry, task, budget);
-      setFallbackResult(fallback);
-      setAiResult(null);
-      setStep("result");
+      clearTimeout(timeoutId);
+      // 超时或失败，保持静态结果（用户已有结果可用，不会卡住）
+      setAiEnhancing(false);
     }
   };
 
@@ -121,6 +132,7 @@ export default function AIMatchWizard() {
     setAiResult(null);
     setFallbackResult(null);
     setError("");
+    setAiEnhancing(false);
     setStep("industry");
   };
 
@@ -330,7 +342,13 @@ export default function AIMatchWizard() {
           <div className="flex items-center justify-center gap-2 text-emerald-400">
             <CheckCircle2 className="h-5 w-5" />
             <span className="text-sm font-semibold">匹配完成</span>
-            {isFallback && (
+            {aiEnhancing && (
+              <span className="ml-2 flex items-center gap-1 rounded bg-blue-500/20 px-2 py-0.5 text-[10px] text-blue-300">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                AI 正在增强推荐...
+              </span>
+            )}
+            {!aiEnhancing && isFallback && (
               <span className="ml-2 rounded bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-400">
                 基础推荐（AI 增强未启用）
               </span>
