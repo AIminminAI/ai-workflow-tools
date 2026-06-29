@@ -59,6 +59,7 @@ export default function DonateSection() {
                 src={method === "wechat" ? "/wechat-qr.png" : "/alipay-qr.jpg"}
                 alt={method === "wechat" ? "微信打赏码" : "支付宝打赏码"}
                 className="h-full w-full object-contain"
+                loading="lazy"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                   e.currentTarget.nextElementSibling?.classList.remove("hidden");

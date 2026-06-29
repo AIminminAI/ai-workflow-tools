@@ -90,23 +90,39 @@ ${description ? `具体问题：${description}` : ""}
 
 请根据以上信息推荐最适合的 AI 工具组合，返回 JSON。`;
 
-    const response = await fetch(AI_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${AI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: AI_MODEL,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: userPrompt },
-        ],
-        response_format: { type: "json_object" },
-        temperature: 0.3,
-        max_tokens: 2000,
-      }),
-    });
+    // 9 秒超时：在 Vercel Edge Function 10 秒超时前主动 abort，返回错误让前端降级
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 9000);
+
+    let response;
+    try {
+      response = await fetch(AI_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: AI_MODEL,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userPrompt },
+          ],
+          response_format: { type: "json_object" },
+          temperature: 0.3,
+          max_tokens: 2000,
+        }),
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+    } catch (fetchErr) {
+      clearTimeout(timeoutId);
+      // 超时或网络错误：返回 fallback 标记，触发前端降级
+      return NextResponse.json(
+        { error: "AI 响应超时，请稍后重试", fallback: true },
+        { status: 504 }
+      );
+    }
 
     if (!response.ok) {
       const errText = await response.text();
