@@ -66,59 +66,16 @@ export default function AIMatchWizard() {
     setStep("budget");
   };
 
-  const handleMatch = async () => {
+  const handleMatch = () => {
     setStep("loading");
     setError("");
 
-    // 12 秒超时：避免网络慢时一直卡在 loading，超时后立即降级到静态匹配
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-    try {
-      const res = await fetch("/api/match", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          industry: industryName,
-          task: taskName,
-          budget: BUDGETS.find((b) => b.id === budget)?.name || budget,
-          description: description.trim(),
-        }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!res.ok) {
-        throw new Error("API 请求失败");
-      }
-
-      const data = await res.json();
-
-      if (data.error && data.fallback) {
-        // API Key 未配置，降级到静态匹配
-        const fallback = matchTools(industry, task, budget);
-        setFallbackResult(fallback);
-        setAiResult(null);
-        setStep("result");
-        return;
-      }
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      setAiResult(data);
-      setFallbackResult(null);
-      setStep("result");
-    } catch (err) {
-      clearTimeout(timeoutId);
-      // 任何错误（超时/网络/服务端）都立即降级到静态匹配，绝不卡死
-      const fallback = matchTools(industry, task, budget);
-      setFallbackResult(fallback);
-      setAiResult(null);
-      setStep("result");
-    }
+    // 直接用内置匹配引擎（瞬间完成，无需 API，无网络依赖，永不卡顿）
+    const result = matchTools(industry, task, budget);
+    setFallbackResult(result);
+    setAiResult(null);
+    // 300ms 让 loading 动画显示一下，给用户点击反馈
+    setTimeout(() => setStep("result"), 300);
   };
 
   const handleReset = () => {
@@ -323,10 +280,10 @@ export default function AIMatchWizard() {
         <div className="animate-card-in flex flex-col items-center justify-center py-16">
           <Loader2 className="h-10 w-10 animate-spin text-blue-400" />
           <p className="mt-4 text-sm text-slate-400">
-            AI 正在分析你的需求，生成个性化推荐...
+            正在匹配最佳工具组合...
           </p>
           <p className="mt-1 text-[10px] text-slate-600">
-            {industryName} · {taskName} · 通常 3-8 秒，超时自动使用基础推荐
+            {industryName} · {taskName} · 瞬间出结果
           </p>
         </div>
       )}
@@ -339,8 +296,8 @@ export default function AIMatchWizard() {
             <CheckCircle2 className="h-5 w-5" />
             <span className="text-sm font-semibold">匹配完成</span>
             {isFallback && (
-              <span className="ml-2 rounded bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-400">
-                基础推荐（AI 增强未启用）
+              <span className="ml-2 rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400">
+                基于 20+ 真实工具库
               </span>
             )}
           </div>
