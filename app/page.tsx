@@ -65,7 +65,7 @@ export default function Home() {
                 <span className="text-xs font-semibold text-slate-200">行业合规提醒</span>
               </div>
               <p className="text-[11px] leading-relaxed text-slate-500">
-                航天涉密数据禁止上传在线 AI、矿山安全规程、医疗患者隐私脱敏——AI 不会主动提醒
+                医疗隐私信息别上传在线 AI、合同涉及商业机密要谨慎、学生论文查重有讲究——AI 不会主动提醒
               </p>
             </div>
             <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4">

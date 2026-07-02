@@ -244,18 +244,18 @@ export const AI_TOOLS: AITool[] = [
 // ============ 行业列表 ============
 
 export const INDUSTRIES: Industry[] = [
-  { id: "aerospace", name: "航天航空", emoji: "🚀" },
-  { id: "rail", name: "火车/轨道交通", emoji: "🚄" },
-  { id: "mining", name: "矿产/采矿", emoji: "⛏️" },
-  { id: "manufacturing", name: "制造业", emoji: "🏭" },
-  { id: "ecommerce", name: "电商/跨境", emoji: "🛒" },
-  { id: "content", name: "自媒体/内容", emoji: "📱" },
-  { id: "education", name: "教育/科研", emoji: "🎓" },
-  { id: "finance", name: "金融/财务", emoji: "💰" },
+  { id: "student", name: "学生/考研", emoji: "🎓" },
+  { id: "office", name: "上班族/职场", emoji: "�" },
+  { id: "content", name: "自媒体/博主", emoji: "📱" },
+  { id: "ecommerce", name: "电商/卖货", emoji: "🛒" },
+  { id: "design", name: "设计/创意", emoji: "🎨" },
+  { id: "software", name: "程序员/开发", emoji: "�" },
+  { id: "manufacturing", name: "工程/制造", emoji: "�" },
+  { id: "finance", name: "财务/数据", emoji: "💰" },
   { id: "medical", name: "医疗/健康", emoji: "⚕️" },
-  { id: "legal", name: "法律/合规", emoji: "⚖️" },
-  { id: "software", name: "软件/IT", emoji: "💻" },
-  { id: "other", name: "其他行业", emoji: "🔧" },
+  { id: "legal", name: "法律/合同", emoji: "⚖️" },
+  { id: "education", name: "教师/培训", emoji: "�" },
+  { id: "other", name: "其他", emoji: "🔧" },
 ];
 
 // ============ 需求列表 ============
@@ -263,51 +263,51 @@ export const INDUSTRIES: Industry[] = [
 export const TASKS: TaskType[] = [
   {
     id: "principle",
-    name: "理解原理/学习",
+    name: "学新东西",
     emoji: "📖",
-    desc: "想搞懂某个技术/概念的底层原理",
+    desc: "想学会某个知识或技能",
   },
   {
     id: "frontier",
-    name: "了解前沿/研究",
+    name: "查资料/了解",
     emoji: "🔭",
-    desc: "追踪行业最新技术动态与论文",
+    desc: "想了解某个话题或最新动态",
   },
   {
     id: "problem",
-    name: "解决技术难题",
+    name: "解决问题",
     emoji: "🧩",
-    desc: "遇到具体的工程/技术问题需要方案",
+    desc: "遇到具体问题需要答案",
   },
   {
     id: "coding",
-    name: "编程/图纸问题",
+    name: "写代码",
     emoji: "💻",
-    desc: "代码调试、程序优化、图纸分析",
+    desc: "编程、调试、优化程序",
   },
   {
     id: "data",
-    name: "数据分析/计算",
+    name: "算数/分析",
     emoji: "📊",
-    desc: "数据处理、公式计算、建模仿真",
+    desc: "数据处理、计算、做表格",
   },
   {
     id: "content",
-    name: "内容创作/营销",
+    name: "写文案/营销",
     emoji: "✍️",
-    desc: "写文案、做图、做视频、搞推广",
+    desc: "写广告、文案、推广内容",
   },
   {
     id: "document",
-    name: "文档/报告写作",
+    name: "写报告/文档",
     emoji: "📝",
-    desc: "写报告、整理资料、翻译文档",
+    desc: "写报告、总结、整理资料",
   },
   {
     id: "image",
-    name: "图像/设计处理",
+    name: "做图/设计",
     emoji: "🎨",
-    desc: "产品图、设计图、效果图生成与编辑",
+    desc: "生成图片、设计、P图",
   },
 ];
 
@@ -383,94 +383,94 @@ const TASK_WORKFLOW: Record<string, string[]> = {
 
 // 行业 → 搜索提示词
 const INDUSTRY_PROMPT: Record<string, string> = {
-  aerospace: "航天航空 结构强度 热防护 推进系统 最新技术",
-  rail: "轨道交通 列车门系统 信号控制 轨道检测 技术标准",
-  mining: "采矿工程 矿山安全 选矿工艺 智能矿山 行业前沿",
-  manufacturing: "智能制造 工业自动化 生产线优化 数字孪生",
-  ecommerce: "跨境电商 选品策略 Listing优化 广告投放",
+  student: "学习方法 考研备考 论文写作 知识理解",
+  office: "职场效率 报告写作 PPT制作 邮件沟通",
   content: "小红书爆款 短视频算法 内容创作 流量增长",
-  education: "教学方法 教育技术 学习科学 课程设计",
-  finance: "财务分析 风险管理 投资策略 金融科技",
-  medical: "医学前沿 临床研究 药物开发 医疗AI",
-  legal: "法律法规 合规审查 合同风险 知识产权",
-  software: "软件架构 系统设计 性能优化 技术选型",
-  other: "行业技术 原理 应用案例 最新趋势",
+  ecommerce: "电商选品 商品图 详情页 广告投放",
+  design: "设计灵感 创意工具 配色排版 品牌设计",
+  software: "编程学习 技术选型 系统设计 性能优化",
+  manufacturing: "工程制造 生产优化 质量管理 工业自动化",
+  finance: "财务分析 数据处理 报表制作 投资理财",
+  medical: "医学知识 健康科普 用药指南 临床研究",
+  legal: "法律法规 合同审查 知识产权 合规风险",
+  education: "教学备课 课件制作 出题评分 教育方法",
+  other: "学习 技能提升 效率工具 实用技巧",
 };
 
 // 行业 → 专属建议
 const INDUSTRY_TIPS: Record<string, string[]> = {
-  aerospace: [
-    "航天领域涉密内容多，切勿将涉密资料上传到任何在线 AI，只输入公开技术原理",
-    "结构/热力学计算推荐 Wolfram Alpha + DeepSeek R1 交叉验证",
-    "追踪前沿用 Consensus 搜 AIAA/IEEE 学术论文",
+  student: [
+    "写论文先用 Kimi 上传参考文档，让 AI 帮你总结要点和列大纲",
+    "考研政治/专业课用 DeepSeek 免费问答，不花钱也能学到",
+    "查学术资料用 Consensus 搜论文，自动总结研究结论",
   ],
-  rail: [
-    "列车门系统涉及安全标准（EN 45545 等），用 Perplexity 搜索最新标准更新",
-    "图纸/PLC 程序问题用 Cursor 打开代码直接调试",
-    "行业前沿关注 IRSE（国际铁路信号工程师协会）相关动态",
-  ],
-  mining: [
-    "矿山安全规程严格，用 Kimi 上传安全规程 PDF 让 AI 帮你快速检索条款",
-    "选矿工艺参数计算用 Wolfram Alpha",
-    "智能矿山前沿用秘塔 AI 搜索中文资料，Perplexity 搜英文论文",
-  ],
-  manufacturing: [
-    "数字孪生/工业仿真用 ChatGPT o1 做方案推理",
-    "PLC/SCADA 编程问题用 Cursor + Claude Sonnet",
-    "生产数据用 DeepSeek R1 做统计分析（免费且强）",
-  ],
-  ecommerce: [
-    "选品用 Perplexity 搜市场趋势，用 ChatGPT 分析竞品评论",
-    "产品图用 Midjourney 生成 + Photoroom 抠白底",
-    "Listing 文案用 Claude Opus 写，多语言翻译用通义千问",
+  office: [
+    "写报告/总结用 Claude，上传资料自动生成结构化文档",
+    "做 PPT 大纲用 ChatGPT，先出框架再填充内容",
+    "翻译邮件/文档用通义千问，中英互译免费又准确",
   ],
   content: [
     "爆款选题用 Perplexity 搜热点，ChatGPT 生成脚本",
     "配图用 Midjourney，视频用 Runway + 剪映",
     "小红书/抖音算法变化用秘塔 AI 搜索追踪",
   ],
-  education: [
-    "教学方案用 Claude Opus 生成，支持上传教材 PDF",
-    "学术论文用 Consensus 搜索 + NotebookLM 综合分析",
-    "课件制作用 ChatGPT 生成大纲 + Midjourney 配图",
+  ecommerce: [
+    "选品用 Perplexity 搜市场趋势，用 ChatGPT 分析竞品评论",
+    "产品图用 Midjourney 生成 + Photoroom 抠白底",
+    "商品文案用 Claude 写，多语言翻译用通义千问",
+  ],
+  design: [
+    "找设计灵感用 Midjourney 生成参考图，再用 PS 精修",
+    "配色方案用 ChatGPT 推荐，说清风格和场景",
+    "品牌 Logo 用 Midjourney 出多个方案再挑选",
+  ],
+  software: [
+    "写代码用 Cursor（AI 原生 IDE），能理解整个项目",
+    "代码补全用 GitHub Copilot，编程效率翻倍",
+    "技术难题用 ChatGPT o1 深度推理，逐步分析给方案",
+  ],
+  manufacturing: [
+    "生产优化方案用 ChatGPT 做推理分析",
+    "PLC/设备编程问题用 Cursor + Claude",
+    "生产数据用 DeepSeek 做统计分析（免费且强）",
   ],
   finance: [
     "财报分析用 Kimi 上传年报 PDF 自动提取数据",
-    "建模计算用 Wolfram Alpha + DeepSeek R1",
+    "计算建模用 Wolfram Alpha，公式精确不出错",
     "法规更新用 Perplexity 实时搜索",
   ],
   medical: [
-    "文献检索用 Consensus 搜 PubMed 论文，自动总结结论",
-    "影像分析用 ChatGPT 4o 多模态（注意脱敏，勿上传患者信息）",
-    "用药指南用 Perplexity 搜最新临床指南",
+    "查医学资料用 Consensus 搜论文，自动总结结论",
+    "健康科普用 ChatGPT 写，通俗易懂",
+    "注意：患者隐私信息切勿上传到任何在线 AI",
   ],
   legal: [
-    "合同审查用 Claude Opus 上传合同 PDF，AI 标注风险条款",
-    "法规检索用秘塔 AI 搜索中文法条，Perplexity 搜国际法",
+    "合同审查用 Claude 上传合同 PDF，AI 标注风险条款",
+    "查法规用秘塔 AI 搜索中文法条",
     "案例检索用 Consensus 搜法学论文",
   ],
-  software: [
-    "架构设计用 ChatGPT o1 做深度推理",
-    "编码用 Cursor（最强 AI IDE）+ GitHub Copilot 补全",
-    "Code Review 用 Claude Sonnet",
+  education: [
+    "备课用 Claude 生成教案，支持上传教材 PDF",
+    "出题用 ChatGPT 按知识点生成练习题",
+    "课件配图用 Midjourney，让课件更生动",
   ],
   other: [
-    "先用 Perplexity 搜索你的行业关键词，了解有哪些 AI 应用",
-    "再用 Kimi 上传行业资料让 AI 总结要点",
-    "最后用 ChatGPT 针对具体问题做深度分析",
+    "先用 Perplexity 搜索你想了解的话题",
+    "再用 Kimi 上传资料让 AI 总结要点",
+    "最后用 ChatGPT 针对具体问题深入分析",
   ],
 };
 
 // 任务 → 主力工具推荐理由
 const TASK_REASON: Record<string, string> = {
-  principle: "Kimi 支持上传 PDF/文档，用大白话解释复杂原理，中文免费无门槛",
-  frontier: "Perplexity 实时联网搜索，自动引用来源，追踪前沿最快",
-  problem: "ChatGPT o1 深度推理模型，擅长拆解复杂工程问题，逐步推理给出方案",
-  coding: "Cursor 是 AI 原生 IDE，能理解整个项目代码，直接定位和修复 bug",
-  data: "Wolfram Alpha 是专业计算引擎，数学/物理/工程公式精确计算与可视化",
-  content: "ChatGPT 4o 通用能力最强，文案/脚本/策划一条龙搞定",
-  document: "Claude Opus 超长文档分析之王，上传资料自动生成结构化报告",
-  image: "Midjourney AI 绘图天花板，质感与美感远超其他工具",
+  principle: "Kimi 能上传文档，用大白话给你讲明白，中文免费好用",
+  frontier: "Perplexity 实时联网搜索，自动带来源，查最新动态最快",
+  problem: "ChatGPT o1 会一步步分析，复杂问题也能给出靠谱方案",
+  coding: "Cursor 能看懂你的整个项目代码，直接帮你找 bug 和改代码",
+  data: "Wolfram Alpha 算数特别准，公式计算不会出错",
+  content: "ChatGPT 4o 写文案/脚本最全能，啥都能写",
+  document: "Claude 写报告最强，上传资料自动帮你整理成文档",
+  image: "Midjourney 画图最好看，质感远超其他工具",
 };
 
 function getToolById(id: string): AITool | undefined {

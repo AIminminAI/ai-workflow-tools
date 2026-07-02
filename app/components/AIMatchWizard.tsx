@@ -246,7 +246,7 @@ export default function AIMatchWizard() {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="例如：我是做火车门的，想了解最新的车门密封技术标准，以及如何用 AI 辅助分析图纸中的结构问题"
+              placeholder="例如：我是做电商的，想用 AI 生成商品主图和写详情页文案"
               rows={3}
               className="w-full resize-none rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
             />

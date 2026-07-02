@@ -49,7 +49,7 @@ export default function HomeClient() {
             不知道该用哪个 AI？选一下，马上告诉你
           </h2>
           <p className="mt-1 text-xs text-slate-500">
-            航天、矿产、制造、电商……任何行业都能匹配到最佳 AI 工具组合
+            学生、上班族、自媒体、电商……任何身份都能匹配到最佳 AI 工具组合
           </p>
         </div>
         <AIMatchWizard />

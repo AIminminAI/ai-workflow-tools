@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ai-workflow-tools.vercel.app"),
   title: "AI Match Wizard - 不知道该用哪个 AI？选一下马上告诉你",
   description:
-    "免费 AI 工具匹配器 + 精选实战配方，全部免费、自愿打赏。选行业、选需求、选预算，立刻推荐最佳 AI 工具组合。覆盖航天、矿产、制造、电商、自媒体等 12+ 行业，ChatGPT/Claude/DeepSeek/Kimi/Perplexity 等 20+ 工具精准匹配。",
+    "免费 AI 工具匹配器 + 精选实战配方，全部免费、自愿打赏。选身份、选需求、选预算，立刻推荐最佳 AI 工具组合。覆盖学生、上班族、自媒体、电商、设计、程序员等 12+ 身份场景，ChatGPT/Claude/DeepSeek/Kimi/Perplexity 等 20+ 工具精准匹配。",
   keywords: [
     "AI 工具推荐",
     "该用什么 AI",
