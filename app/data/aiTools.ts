@@ -33,7 +33,7 @@ export interface MatchResult {
   searchPrompt: string;
 }
 
-// ============ AI 工具数据库（20+ 工具） ============
+// ============ AI 工具数据库（20 款工具） ============
 
 export const AI_TOOLS: AITool[] = [
   // 对话推理类
@@ -116,6 +116,16 @@ export const AI_TOOLS: AITool[] = [
     pricing: "免费",
     region: "国内",
     url: "https://tongyi.aliyun.com",
+  },
+  {
+    id: "doubao",
+    name: "豆包",
+    emoji: "🫘",
+    category: "对话推理",
+    desc: "字节跳动 AI 助手，免费好用，对话/写作/翻译都能做",
+    pricing: "免费",
+    region: "国内",
+    url: "https://www.doubao.com",
   },
 
   // 搜索研究类

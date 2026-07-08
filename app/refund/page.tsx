@@ -49,7 +49,7 @@ export default function RefundPage() {
       </Section>
 
       <Section title="六、联系方式">
-        <p>微信：phone_15902953075</p>
+        <p>微信：15902953075</p>
         <p>邮箱：1317957931@qq.com</p>
         <p>客服响应时间：每日 9:00-22:00</p>
       </Section>

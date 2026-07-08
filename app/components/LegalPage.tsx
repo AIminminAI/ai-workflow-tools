@@ -33,7 +33,7 @@ export function LegalPage({ title, lastUpdated, children }: LegalPageProps) {
 
         <footer className="mt-12 border-t border-slate-800/60 pt-6">
           <p className="text-xs text-slate-600">
-            AI Match Wizard · 如有疑问请联系微信：phone_15902953075
+            AI Match Wizard · 如有疑问请联系微信：15902953075
           </p>
         </footer>
       </div>

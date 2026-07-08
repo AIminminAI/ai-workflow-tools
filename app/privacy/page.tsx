@@ -64,7 +64,7 @@ export default function PrivacyPage() {
 
       <Section title="八、联系方式">
         <p>如对本隐私政策有任何疑问，请通过以下方式联系：</p>
-        <p>微信：phone_15902953075</p>
+        <p>微信：15902953075</p>
         <p>邮箱：1317957931@qq.com</p>
       </Section>
     </LegalPage>

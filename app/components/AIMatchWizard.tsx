@@ -297,7 +297,7 @@ export default function AIMatchWizard() {
             <span className="text-sm font-semibold">匹配完成</span>
             {isFallback && (
               <span className="ml-2 rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400">
-                基于 20+ 真实工具库
+                基于 20 款真实工具库
               </span>
             )}
           </div>

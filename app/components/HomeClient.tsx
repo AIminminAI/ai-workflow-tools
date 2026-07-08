@@ -58,7 +58,7 @@ export default function HomeClient() {
       {/* ==================== 分隔线 ==================== */}
       <div className="mb-10 flex items-center gap-4">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-        <span className="text-xs text-slate-600">以下为精选实战配方（全部免费）</span>
+        <span className="text-xs text-slate-600">以下为精选搞钱实战配方（全部免费）</span>
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
       </div>
 

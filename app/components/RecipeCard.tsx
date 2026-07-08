@@ -9,7 +9,7 @@ import {
   Sparkles,
   PartyPopper,
 } from "lucide-react";
-import { decode, type Recipe } from "../data/recipes";
+import type { Recipe } from "../data/recipes";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -19,17 +19,13 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe, index }: RecipeCardProps) {
   const [copied, setCopied] = useState(false);
 
-  // 免费模式：直接解码核心内容
-  const decodedPrompt = decode(recipe.hiddenPrompt);
-  const decodedUrl = decode(recipe.hiddenToolUrl);
-
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(decodedPrompt);
+      await navigator.clipboard.writeText(recipe.prompt);
     } catch {
       // 兜底：创建临时 textarea 执行复制
       const textarea = document.createElement("textarea");
-      textarea.value = decodedPrompt;
+      textarea.value = recipe.prompt;
       document.body.appendChild(textarea);
       textarea.select();
       document.execCommand("copy");
@@ -95,10 +91,10 @@ export default function RecipeCard({ recipe, index }: RecipeCardProps) {
           </ol>
         </div>
 
-        {/* 独家 Prompt 模板（免费直接展示） */}
+        {/* 实战 Prompt 模板（免费直接展示） */}
         <div className="relative">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-emerald-500/80">
-            独家 Prompt 模板 · 免费
+            实战 Prompt 模板 · 免费
           </p>
 
           <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-950/60 p-4">
@@ -106,7 +102,7 @@ export default function RecipeCard({ recipe, index }: RecipeCardProps) {
             <div className="mb-3">
               <div className="mb-1.5 flex items-center justify-between">
                 <span className="text-xs font-semibold text-slate-300">
-                  独家暗黑 Prompt 模板
+                  独家实战 Prompt 模板
                 </span>
                 <button
                   onClick={handleCopy}
@@ -130,20 +126,20 @@ export default function RecipeCard({ recipe, index }: RecipeCardProps) {
                 </button>
               </div>
               <pre className="overflow-x-auto rounded-lg bg-slate-900/80 p-3 font-mono text-[11px] leading-relaxed text-emerald-300/90 whitespace-pre-wrap break-all">
-                {decodedPrompt}
+                {recipe.prompt}
               </pre>
             </div>
 
-            {/* 隐藏工具链接 */}
+            {/* 配套工具链接 */}
             <a
-              href={decodedUrl}
+              href={recipe.extraToolUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/40 px-3 py-2.5 transition-colors duration-150 hover:border-blue-500/50 hover:bg-slate-800/80"
             >
               <span className="flex items-center gap-2 text-xs text-slate-300">
                 <Link2 className="h-3.5 w-3.5 text-blue-400" />
-                {recipe.hiddenTool}
+                {recipe.extraToolName}
               </span>
               <ArrowRight className="h-3.5 w-3.5 text-slate-600" />
             </a>

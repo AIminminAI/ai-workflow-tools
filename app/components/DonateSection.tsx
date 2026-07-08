@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Heart, Coffee, MessageCircle } from "lucide-react";
 
-// 客服/交流微信号
-const WECHAT_ID = "phone_15902953075";
+// 客服/交流微信号（手机号即微信号）
+const WECHAT_ID = "15902953075";
 
 export default function DonateSection() {
   const [method, setMethod] = useState<"wechat" | "alipay">("wechat");
