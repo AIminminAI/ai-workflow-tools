@@ -1,7 +1,7 @@
 // Cloudflare Pages 构建脚本
-// 静态导出模式：移除 API 路由 → 设置 output:export → 构建 → 恢复
-// 这样 Cloudflare Pages 部署纯静态文件，国内访问快
-// AI 匹配器自动降级到静态推荐（仍可用），支付/解锁全部正常
+// 静态导出模式：设置 output:export → 构建 → 恢复配置
+// Cloudflare Pages 部署纯静态文件，国内访问快
+// AI 匹配器使用内置静态引擎，所有功能正常
 
 import fs from "fs";
 import { execSync } from "child_process";

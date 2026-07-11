@@ -83,7 +83,7 @@ export default function Home() {
                 <span className="text-xs font-semibold text-slate-200">精选搞钱配方</span>
               </div>
               <p className="text-[11px] leading-relaxed text-slate-500">
-                验证过的工作流+独家 Prompt 模板，全部免费，AI 临场编的不如验证过的靠谱
+                验证过的工作流+实战 Prompt 模板，全部免费，AI 临场编的不如验证过的靠谱
               </p>
             </div>
           </div>

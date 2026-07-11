@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 
 export default function RefundPage() {
   return (
-    <LegalPage title="打赏说明" lastUpdated="2026年6月27日">
+    <LegalPage title="打赏说明" lastUpdated="2026年7月3日">
       <Section title="一、内容完全免费">
         <p>
-          AI Match Wizard 提供的所有内容（包括 AI 工具匹配、实战配方、独家 Prompt 模板、隐藏工具链接）<strong>完全免费</strong>，无需任何付费即可查看和使用全部内容。
+          AI Match Wizard 提供的所有内容（包括 AI 工具匹配、实战配方、实战 Prompt 模板、配套工具链接）<strong>完全免费</strong>，无需任何付费即可查看和使用全部内容。
         </p>
         <p>
           我们致力于让每个人都能免费获得优质的 AI 工具使用指导，降低 AI 使用门槛。

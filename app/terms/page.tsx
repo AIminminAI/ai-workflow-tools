@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="用户协议" lastUpdated="2026年6月27日">
+    <LegalPage title="用户协议" lastUpdated="2026年7月3日">
       <Section title="一、服务说明">
         <p>
-          AI Match Wizard（以下简称"本站"）是一个提供 AI 工具匹配与实战配方展示的单页应用。<strong>所有内容完全免费</strong>，用户无需支付任何费用即可查看和使用全部功能（包括 AI 工具匹配、实战配方、独家 Prompt 模板、隐藏工具链接）。
+          AI Match Wizard（以下简称"本站"）是一个提供 AI 工具匹配与实战配方展示的单页应用。<strong>所有内容完全免费</strong>，用户无需支付任何费用即可查看和使用全部功能（包括 AI 工具匹配、实战配方、实战 Prompt 模板、配套工具链接）。
         </p>
         <p>
           本站在页面底部提供打赏二维码，用户可自愿打赏以支持创作者持续更新，但<strong>打赏非必须，不打赏也能使用全部功能</strong>。
@@ -22,7 +22,7 @@ export default function TermsPage() {
       </Section>
 
       <Section title="二、用户权利与义务">
-        <p>1. 用户有权<strong>免费</strong>浏览和使用本站所有内容（包括 AI 工具匹配、配方名称、工具链、步骤拆解、独家 Prompt 模板、隐藏工具链接）。</p>
+        <p>1. 用户有权<strong>免费</strong>浏览和使用本站所有内容（包括 AI 工具匹配、配方名称、工具链、步骤拆解、实战 Prompt 模板、配套工具链接）。</p>
         <p>2. 用户可自愿打赏支持创作者，打赏后不会获得额外权益（所有内容本就免费开放）。</p>
         <p>3. 本站内容仅供个人学习使用，不得批量复制、转载、转售或用于其他商业用途。</p>
         <p>4. 用户不得将本站内容爬取、镜像或用于搭建竞争性网站。</p>

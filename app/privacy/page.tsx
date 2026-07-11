@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="隐私政策" lastUpdated="2026年6月27日">
+    <LegalPage title="隐私政策" lastUpdated="2026年7月3日">
       <Section title="一、前言">
         <p>
           AI Match Wizard（以下简称"本站"）高度重视用户隐私保护。本隐私政策旨在说明本站如何收集、使用和保护您的个人信息。请您在使用本站服务前，仔细阅读并充分理解本政策的全部内容。
