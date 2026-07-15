@@ -23,6 +23,7 @@ import {
   matchTools,
   type MatchResult,
 } from "../data/aiTools";
+import { trackMatch } from "../lib/tracker";
 
 type Step = "industry" | "task" | "budget" | "loading" | "result";
 
@@ -74,6 +75,7 @@ export default function AIMatchWizard() {
     const result = matchTools(industry, task, budget);
     setFallbackResult(result);
     setAiResult(null);
+    trackMatch();
     // 300ms 让 loading 动画显示一下，给用户点击反馈
     setTimeout(() => setStep("result"), 300);
   };

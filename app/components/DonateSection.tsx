@@ -1,16 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Heart, Coffee, MessageCircle } from "lucide-react";
+import { trackDonateView } from "../lib/tracker";
 
 // 客服/交流微信号（手机号即微信号）
 const WECHAT_ID = "15902953075";
 
 export default function DonateSection() {
   const [method, setMethod] = useState<"wechat" | "alipay">("wechat");
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackedRef = useRef(false);
+
+  // 打赏区进入视口时记录曝光（仅一次）
+  useEffect(() => {
+    if (trackedRef.current || !sectionRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          trackDonateView();
+          trackedRef.current = true;
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="mt-12 mb-4">
+    <section ref={sectionRef} className="mt-12 mb-4">
       <div className="rounded-2xl border border-slate-800 bg-gradient-to-b from-slate-900/80 to-slate-950/60 p-6 sm:p-8">
         <div className="mx-auto max-w-md text-center">
           {/* 标题徽章 */}
@@ -59,6 +79,10 @@ export default function DonateSection() {
                 src={method === "wechat" ? "/wechat-qr.png" : "/alipay-qr.jpg"}
                 alt={method === "wechat" ? "微信打赏码" : "支付宝打赏码"}
                 className="h-full w-full object-contain"
+                style={{
+                  WebkitTouchCallout: "default",
+                  pointerEvents: "auto",
+                }}
                 loading="lazy"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
@@ -68,7 +92,8 @@ export default function DonateSection() {
               {/* 兜底：图片加载失败时显示微信号 */}
               <div className="hidden flex-col items-center gap-2 px-4 text-center">
                 <MessageCircle className="h-10 w-10 text-emerald-500" strokeWidth={1.5} />
-                <p className="text-xs text-slate-400">加微信交流</p>
+                <p className="text-xs text-slate-400">二维码加载失败</p>
+                <p className="text-[10px] text-slate-500">请加微信快速获取</p>
                 <code className="rounded bg-slate-100 px-2 py-1 text-[11px] text-emerald-600">
                   {WECHAT_ID}
                 </code>
@@ -76,7 +101,7 @@ export default function DonateSection() {
             </div>
           </div>
           <p className="mt-3 text-xs text-slate-500">
-            {method === "wechat" ? "微信" : "支付宝"}扫码 · 金额随意 · 感谢支持
+            {method === "wechat" ? "微信" : "支付宝"}扫码 · 长按可识别 · 金额随意
           </p>
 
           {/* 联系方式 */}

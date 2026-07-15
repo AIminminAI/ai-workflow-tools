@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Zap } from "lucide-react";
 import HomeClient from "./components/HomeClient";
 import DonateSection from "./components/DonateSection";
+import AdminFunnelPanel from "./components/AdminFunnelPanel";
 
 export default function Home() {
   return (
@@ -126,6 +127,8 @@ export default function Home() {
           </div>
         </footer>
       </div>
+      {/* 转化漏斗分析面板（仅 ?admin=true 时显示） */}
+      <AdminFunnelPanel />
     </main>
   );
 }

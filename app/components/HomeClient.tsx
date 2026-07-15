@@ -1,13 +1,18 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, PackageOpen, Wand2 } from "lucide-react";
 import { recipes } from "../data/recipes";
 import FilterPanel from "./FilterPanel";
 import RecipeCard from "./RecipeCard";
 import AIMatchWizard from "./AIMatchWizard";
+import { trackPV } from "../lib/tracker";
 
 export default function HomeClient() {
+  // 记录页面访问（每次进入首页 +1）
+  useEffect(() => {
+    trackPV();
+  }, []);
   // 筛选状态
   const [selectedRole, setSelectedRole] = useState("小红书博主");
   const [selectedBudget, setSelectedBudget] = useState("性价比狂魔");

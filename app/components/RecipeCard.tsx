@@ -10,6 +10,7 @@ import {
   PartyPopper,
 } from "lucide-react";
 import type { Recipe } from "../data/recipes";
+import { trackCopyPrompt } from "../lib/tracker";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -20,19 +21,34 @@ export default function RecipeCard({ recipe, index }: RecipeCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
+    let success = false;
     try {
       await navigator.clipboard.writeText(recipe.prompt);
+      success = true;
     } catch {
-      // 兜底：创建临时 textarea 执行复制
-      const textarea = document.createElement("textarea");
-      textarea.value = recipe.prompt;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
+      // 兜底：创建临时 textarea 执行复制（iOS WebView 兼容）
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = recipe.prompt;
+        textarea.style.position = "fixed";
+        textarea.style.top = "-9999px";
+        textarea.style.left = "-9999px";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+        success = document.execCommand("copy");
+        document.body.removeChild(textarea);
+      } catch {
+        success = false;
+      }
     }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (success) {
+      trackCopyPrompt();
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
@@ -154,7 +170,7 @@ export default function RecipeCard({ recipe, index }: RecipeCardProps) {
             <PartyPopper className="h-3.5 w-3.5 text-emerald-400" />
           </div>
           <span className="text-sm font-medium text-emerald-300">
-            复制成功，快去搞钱吧！
+            复制成功！已复制至剪贴板，请前往工具中粘贴使用
           </span>
         </div>
       )}
