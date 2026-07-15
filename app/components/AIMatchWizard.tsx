@@ -411,15 +411,15 @@ export default function AIMatchWizard() {
             </div>
           </div>
 
-          {/* AI 对比分析（仅 AI 模式） */}
-          {aiResult?.comparison && (
+          {/* AI 对比分析（证明为什么不用 DeepSeek） */}
+          {(aiResult?.comparison || fallbackResult?.comparison) && (
             <div className="rounded-2xl border border-purple-500/20 bg-purple-500/5 p-5">
               <h4 className="mb-2 flex items-center gap-2 text-sm font-bold text-purple-300">
                 <AlertCircle className="h-4 w-4" />
                 为什么不直接问 DeepSeek/豆包？
               </h4>
               <p className="text-xs leading-relaxed text-slate-300">
-                {aiResult.comparison}
+                {aiResult?.comparison || fallbackResult!.comparison}
               </p>
             </div>
           )}

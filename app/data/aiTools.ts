@@ -31,6 +31,7 @@ export interface MatchResult {
   workflow: string[];
   tips: string[];
   searchPrompt: string;
+  comparison: string;
 }
 
 // ============ AI 工具数据库（20 款工具） ============
@@ -471,16 +472,28 @@ const INDUSTRY_TIPS: Record<string, string[]> = {
   ],
 };
 
-// 任务 → 主力工具推荐理由
+// 任务 → 主力工具推荐理由（含与 DeepSeek 的功能差异对比，证明推荐合理性）
 const TASK_REASON: Record<string, string> = {
-  principle: "Kimi 能上传文档，用大白话给你讲明白，中文免费好用",
-  frontier: "Perplexity 实时联网搜索，自动带来源，查最新动态最快",
-  problem: "ChatGPT o1 会一步步分析，复杂问题也能给出靠谱方案",
-  coding: "Cursor 能看懂你的整个项目代码，直接帮你找 bug 和改代码",
-  data: "Wolfram Alpha 算数特别准，公式计算不会出错",
-  content: "ChatGPT 4o 写文案/脚本最全能，啥都能写",
-  document: "Claude 写报告最强，上传资料自动帮你整理成文档",
-  image: "Midjourney 画图最好看，质感远超其他工具",
+  principle: "Kimi 专做长文档，200 万字上下文能一次读完一整本教材+笔记；DeepSeek 也能读但长文总结 Kimi 更专业",
+  frontier: "Perplexity 是 AI 搜索引擎，实时联网+自动带来源；DeepSeek 不能联网，查最新动态必须用 Perplexity",
+  problem: "ChatGPT o1 是深度推理模型，复杂逻辑/科研难题分析更稳；DeepSeek R1 也能推理但 o1 在难题上更准",
+  coding: "Cursor 是 AI 原生 IDE，能读懂整个项目并直接改代码；DeepSeek 只能对话问答，改大项目 Cursor 效率高得多",
+  data: "Wolfram Alpha 是专用计算引擎，公式计算精确不出错；DeepSeek 是大语言模型，算复杂公式可能出错",
+  content: "ChatGPT 4o 多模态强，能写文案+生图+做语音；DeepSeek 只能文字，做内容创作 ChatGPT 更全能",
+  document: "Claude Opus 是长文档分析之王，20 万字上下文；DeepSeek 写文档不错但深度分析不如 Claude",
+  image: "Midjourney 是 AI 绘图天花板；DeepSeek 根本不能画图，必须用 Midjourney",
+};
+
+// 任务 → 与 DeepSeek 的功能差异对比（证明为什么不用 DeepSeek）
+const TASK_COMPARISON: Record<string, string> = {
+  principle: "DeepSeek 也能读文档，但 Kimi 专注长文档场景，200 万字上下文能一次读完一整本教材+笔记不漏内容。如果你只读几页短文档，DeepSeek 够用；要读长资料，Kimi 更靠谱。",
+  frontier: "DeepSeek 不能联网搜索，知识有截止日期。Perplexity 实时联网+自动带引用来源，查'2026 年最新政策''昨天刚发布的新闻'这类信息必须用 Perplexity，DeepSeek 给不出实时答案。",
+  problem: "DeepSeek R1 推理能力已经很强（AIME 数学竞赛接近 o1），但 o1 在超复杂科研难题、多步逻辑链上仍略胜一筹。普通问题用 DeepSeek R1 免费就够；难题要追求最高准确率，用 o1。",
+  coding: "DeepSeek 只能对话问答，你得手动复制粘贴代码。Cursor 能直接打开你的整个项目，AI 自动理解项目结构、定位 bug、直接改文件。改小问题 DeepSeek 够用；改整个项目，Cursor 效率高 10 倍。",
+  data: "DeepSeek 是大语言模型，算复杂公式可能算错（这是 LLM 通病）。Wolfram Alpha 是专用计算引擎，公式计算 100% 精确。算'∫sin(x²)dx'这种，DeepSeek 可能给你错的答案，Wolfram Alpha 不会。",
+  content: "DeepSeek 只能输出文字。ChatGPT 4o 能写文案+直接生成配图+做语音旁白，一条龙搞定。做小红书图文/短视频脚本，ChatGPT 4o 比 DeepSeek 全能得多。",
+  document: "DeepSeek 写短文档不错，但分析超长报告（年报/合同/论文集）容易漏信息。Claude Opus 支持 20 万字上下文，能一次吃透整份年报，深度分析更强。写短总结用 DeepSeek；分析长文档用 Claude。",
+  image: "DeepSeek 根本不能画图（它是文字模型）。做商品主图、设计图、插画，必须用 Midjourney。这是功能差异，不是'谁更好'的问题——DeepSeek 干不了这活。",
 };
 
 function getToolById(id: string): AITool | undefined {
@@ -513,6 +526,7 @@ export function matchTools(
   const tips = INDUSTRY_TIPS[industryId] || INDUSTRY_TIPS.other;
   const searchPrompt = INDUSTRY_PROMPT[industryId] || INDUSTRY_PROMPT.other;
   const primaryReason = TASK_REASON[taskId] || TASK_REASON.principle;
+  const comparison = TASK_COMPARISON[taskId] || TASK_COMPARISON.principle;
 
   const primary = getToolById(primaryId) || AI_TOOLS[0];
 
@@ -531,5 +545,6 @@ export function matchTools(
     workflow,
     tips,
     searchPrompt,
+    comparison,
   };
 }
